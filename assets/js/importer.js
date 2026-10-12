@@ -26,10 +26,11 @@ function rx(...alts) {
 /** يختبر نصًا بعد تطبيقه مقابل كلمات عربية خام */
 const has = (text, ...alts) => rx(...alts).test(normText(text));
 
-/** يستخرج نسبة مئوية من نص: "87%" ، "87.25 %" ، "0.87" ، "٪٨٧" */
-function parsePercent(v) {
+/** يستخرج نسبة مئوية من نص: "87%" ، "87.25 %" ، "0.87" ، "٪٨٧"
+ *  الحد الأعلى افتراضيًا 100 (نسبة)، ويمكن رفعه للأعداد مثل عدد الطلبة. */
+function parsePercent(v, max = 100) {
   if (v === null || v === undefined || v === '') return null;
-  if (typeof v === 'number') return v > 0 && v <= 1 ? v * 100 : v;
+  if (typeof v === 'number') return v > 0 && v <= 1 ? v * 100 : (v > max ? null : v);
   const s = normText(String(v)).replace(/[،,]/g, '.');
   const m = s.match(/-?\d+(?:\.\d+)?/);
   if (!m) return null;
@@ -37,7 +38,7 @@ function parsePercent(v) {
   if (n < 0) return null;
   /* 0.87 تعني 87% ، أما الرقم 1 المجرّد فيعني 1% */
   if (n < 1 && /^0\.\d+/.test(s)) n = n * 100;
-  return n > 100 ? null : n;
+  return n > max ? null : n;
 }
 
 /** يبحث عن رمز مؤشر داخل نص مثل "1-1-1-1" أو "1 - 1 - 1 - 1" */
@@ -131,7 +132,7 @@ function harvestRows(rows) {
       if (m) { found.school.ministryNo = m[0]; handled = true; }
     }
     if (has(first, 'عدد الطلبة', 'العدد الإجمالي', 'عدد الطلاب', 'عدد الطالبات')) {
-      const n = cells.slice(1).map(parsePercent).find(v => v !== null && Number.isInteger(v));
+      const n = cells.slice(1).map(c => parsePercent(c, 100000)).find(v => v !== null && Number.isInteger(v));
       if (n !== null) { found.school.students = n; handled = true; }
     }
     if (has(first, 'اسم المدرسة')) { found.school.name = (cells[1] || '').trim(); handled = true; }

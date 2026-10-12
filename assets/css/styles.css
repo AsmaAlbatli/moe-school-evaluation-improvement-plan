@@ -1,0 +1,399 @@
+/* =====================================================================
+   منصة خطة تحسين نتائج التقويم المدرسي — التنسيقات
+   ===================================================================== */
+
+:root{
+  /*Degrees الأزرق الغامق及其 المشتقات الفاتحة */
+  --navy-900:#06203A;
+  --navy-800:#0A2E52;
+  --navy-700:#0B3B6F;
+  --navy-600:#124C8C;
+  --navy-500:#1A5FA8;
+  --navy-400:#2E7FD4;
+  --navy-300:#7FB0E5;
+  --navy-200:#C3DBF3;
+  --navy-100:#E4EFFA;
+  --navy-50:#F3F8FD;
+
+  --ink:#0F2036;
+  --muted:#5A6B80;
+  --line:#DCE6F0;
+  --bg:#EEF3F9;
+  --white:#fff;
+
+  /* مستويات الأداء */
+  --lvl-tahyea:#DC2626;
+  --lvl-intilaq:#EA580C;
+  --lvl-taqaddum:#2563EB;
+  --lvl-tamayyuz:#16A34A;
+
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow:0 2px 8px rgba(6,32,58,.06), 0 8px 28px rgba(6,32,58,.08);
+  --shadow-lg:0 6px 18px rgba(6,32,58,.10), 0 20px 50px rgba(6,32,58,.12);
+  --font:"Segoe UI","Tahoma","Dubai","Arial",sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+svg{ flex-shrink:0 }
+/* الأيقونات المضمّنة داخل العناوين تأخذ حجمًا افتراضيًا مناسبًا */
+.card-head h2 svg{ width:20px; height:20px }
+.crit-head svg{ width:18px; height:18px }
+.dbar-ico svg{ width:19px; height:19px; stroke-width:2.1 }
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--font); background:var(--bg); color:var(--ink);
+  font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+
+/* ============================ الشريط العلوي ============================ */
+.topbar{
+  background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-700) 45%,var(--navy-500) 100%);
+  color:#fff; padding:0 26px; position:sticky; top:0; z-index:50;
+  box-shadow:0 2px 14px rgba(6,32,58,.25);
+}
+.topbar-inner{
+  max-width:1280px; margin:0 auto; display:flex; align-items:center; gap:20px;
+  min-height:76px; flex-wrap:wrap;
+}
+.logo-box{
+  background:#fff; border-radius:12px; padding:5px 10px; display:flex; align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.18); flex-shrink:0;
+}
+.logo-box svg,.logo-box img{height:52px; width:auto; display:block}
+.brand h1{ margin:0; font-size:18px; font-weight:700; letter-spacing:.2px; line-height:1.4 }
+.brand p{ margin:0; font-size:12.5px; color:var(--navy-200); font-weight:500 }
+.topbar-actions{ margin-right:auto; display:flex; gap:9px; flex-wrap:wrap; align-items:center }
+
+/* ============================ الأزرار ============================ */
+.btn{
+  border:none; cursor:pointer; font-family:inherit; font-size:13.5px; font-weight:600;
+  padding:9px 16px; border-radius:9px; display:inline-flex; align-items:center; gap:7px;
+  transition:transform .12s ease, box-shadow .18s ease, background .18s ease;
+  background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.22);
+}
+.btn:hover{ background:rgba(255,255,255,.26); transform:translateY(-1px) }
+.btn:active{ transform:translateY(0) }
+.btn svg{ width:17px; height:17px; flex-shrink:0 }
+.btn-primary{ background:var(--navy-400); border-color:var(--navy-300) }
+.btn-primary:hover{ background:var(--navy-300); color:var(--navy-900) }
+.btn-gold{ background:#C79A3C; border-color:#E8C36A }
+.btn-gold:hover{ background:#E8C36A; color:var(--navy-900) }
+.btn-ghost{ background:transparent; border-color:var(--line); color:var(--muted) }
+.btn-ghost:hover{ background:var(--navy-100); color:var(--navy-700); border-color:var(--navy-300) }
+.btn-sm{ padding:6px 12px; font-size:12.5px }
+.btn-danger{ background:#FEE2E2; border-color:#FCA5A5; color:#991B1B }
+.btn-danger:hover{ background:#FCA5A5; color:#fff }
+
+/* ============================ الهيكل ============================ */
+.wrap{ max-width:1280px; margin:0 auto; padding:22px 26px 70px }
+.card{
+  background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow);
+  border:1px solid var(--line); margin-bottom:20px; overflow:hidden;
+}
+.card-head{
+  display:flex; align-items:center; gap:12px; padding:16px 20px;
+  background:linear-gradient(180deg,var(--navy-50),var(--white));
+  border-bottom:1px solid var(--line);
+}
+.card-head h2{ margin:0; font-size:16px; font-weight:700; color:var(--navy-700); display:flex; align-items:center; gap:9px }
+.card-head .spacer{ margin-right:auto }
+.card-body{ padding:20px }
+.chip-count{
+  font-size:12px; font-weight:700; padding:3px 10px; border-radius:20px;
+  background:var(--navy-100); color:var(--navy-700); border:1px solid var(--navy-200);
+}
+
+/* ============================ النماذج ============================ */
+.grid{display:grid; gap:14px}
+.grid-4{ grid-template-columns:repeat(4,1fr) }
+.grid-3{ grid-template-columns:repeat(3,1fr) }
+.grid-2{ grid-template-columns:repeat(2,1fr) }
+@media(max-width:900px){ .grid-4,.grid-3{grid-template-columns:repeat(2,1fr)} .grid-2{grid-template-columns:1fr} }
+@media(max-width:560px){ .grid-4,.grid-3{grid-template-columns:1fr} }
+
+.field label{ display:block; font-size:12.5px; font-weight:700; color:var(--navy-600); margin-bottom:5px }
+.field input,.field select,.field textarea{
+  width:100%; font-family:inherit; font-size:14px; padding:9px 12px;
+  border:1.5px solid var(--line); border-radius:var(--radius-sm);
+  background:var(--white); color:var(--ink); transition:border-color .15s, box-shadow .15s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none; border-color:var(--navy-400); box-shadow:0 0 0 3px var(--navy-100);
+}
+.field input:disabled{ background:var(--navy-50); color:var(--muted) }
+
+/* ============================ ملخص الأداء ============================ */
+.summary{ display:grid; grid-template-columns:290px 1fr; gap:26px; align-items:center }
+@media(max-width:820px){ .summary{grid-template-columns:1fr} }
+
+.ring-wrap{ display:flex; flex-direction:column; align-items:center; gap:10px }
+.ring{ width:186px; height:186px; position:relative; flex-shrink:0 }
+.ring svg{ transform:rotate(-90deg); width:100%; height:100% }
+.ring .track{ stroke:var(--navy-100) }
+.ring .fill{ transition:stroke-dashoffset .7s cubic-bezier(.3,1,.4,1); stroke-linecap:round }
+.ring .center{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:2px;
+}
+.ring .val{ font-size:40px; font-weight:800; line-height:1; letter-spacing:-1px }
+.ring .cap{ font-size:12.5px; color:var(--muted); font-weight:600 }
+
+.lvl-strip{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center }
+.lvl-pill{
+  display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px;
+  font-size:12px; font-weight:700; border:1.5px solid;
+}
+.lvl-pill i{ width:9px; height:9px; border-radius:50%; display:block }
+
+/* ============================ أعمدة المجالات ============================ */
+.dom-bars{ display:flex; flex-direction:column; gap:16px }
+.dbar{ display:block }
+.dbar-top{ display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap }
+.dbar-ico{ display:inline-flex; align-items:center }
+.dbar-ico svg{ width:19px; height:19px; stroke-width:2.1 }
+.dbar-name{ font-weight:700; font-size:14.5px; color:var(--navy-800) }
+.dbar-rank{
+  font-size:11px; font-weight:800; padding:2px 9px; border-radius:20px;
+  background:var(--navy-700); color:#fff;
+}
+.dbar-track{ height:24px; background:var(--navy-100); border-radius:7px; overflow:hidden }
+.dbar-fill{
+  height:100%; border-radius:7px;
+  transition:width .6s cubic-bezier(.3,1,.4,1); min-width:6px;
+}
+.dbar-val{ font-size:14.5px; font-weight:800; margin-right:auto }
+
+/* ============================ شريط الأدوات ============================ */
+.toolbar{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  background:var(--white); border:1px solid var(--line); border-radius:var(--radius);
+  padding:13px 16px; box-shadow:var(--shadow); margin-bottom:20px;
+}
+.toolbar .spacer{ margin-right:auto }
+.field-inline{ display:flex; align-items:center; gap:8px }
+.field-inline label{ font-size:12.5px; font-weight:700; color:var(--navy-600); white-space:nowrap }
+
+select.select{
+  font-family:inherit; font-size:14px; font-weight:600; padding:9px 14px; min-width:260px;
+  border:1.5px solid var(--navy-300); border-radius:var(--radius-sm);
+  background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B3B6F' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat left 10px center/15px;
+  padding-left:34px; color:var(--navy-800); cursor:pointer;
+}
+select.select:focus{ outline:none; border-color:var(--navy-500); box-shadow:0 0 0 3px var(--navy-100) }
+
+/* ============================ بطاقات المؤشرات ============================ */
+.crit-group{ margin-bottom:22px }
+.crit-head{
+  display:flex; align-items:center; gap:10px; padding:11px 15px; margin-bottom:12px;
+  background:linear-gradient(90deg,var(--navy-700),var(--navy-500));
+  color:#fff; border-radius:var(--radius-sm); font-weight:700; font-size:14px;
+}
+.crit-head .code{
+  background:rgba(255,255,255,.2); padding:2px 9px; border-radius:6px;
+  font-size:12px; font-weight:700; letter-spacing:.4px;
+}
+.crit-head .spacer{ margin-right:auto }
+.crit-head .score{ font-size:13px; font-weight:800; background:rgba(255,255,255,.2); padding:3px 11px; border-radius:20px }
+
+.ind-list{ display:grid; gap:12px }
+.ind{
+  border:1.5px solid var(--line); border-radius:var(--radius-sm); background:var(--white);
+  padding:14px 16px; border-right:5px solid var(--lvl-taqaddum);
+  box-shadow:0 1px 3px rgba(6,32,58,.05); transition:box-shadow .18s, transform .18s;
+}
+.ind:hover{ box-shadow:var(--shadow); transform:translateY(-1px) }
+.ind[data-lv="tahyea"]{ border-right-color:var(--lvl-tahyea) }
+.ind[data-lv="intilaq"]{ border-right-color:var(--lvl-intilaq) }
+.ind[data-lv="taqaddum"]{ border-right-color:var(--lvl-taqaddum) }
+.ind[data-lv="tamayyuz"]{ border-right-color:var(--lvl-tamayyuz) }
+.ind[data-lv="none"]{ border-right-color:#94A3B8; background:var(--navy-50) }
+
+.ind-top{ display:flex; align-items:flex-start; gap:10px; margin-bottom:8px; flex-wrap:wrap }
+.ind-code{
+  font-family:Consolas,monospace; font-weight:700; font-size:12.5px;
+  background:var(--navy-100); color:var(--navy-700); padding:3px 9px;
+  border-radius:6px; border:1px solid var(--navy-200); flex-shrink:0;
+}
+.ind-text{ font-size:14.5px; font-weight:600; color:var(--navy-800); flex:1; min-width:240px; line-height:1.6 }
+.ind-badges{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-right:auto }
+.badge{
+  font-size:12px; font-weight:800; padding:4px 12px; border-radius:20px;
+  border:1.5px solid; display:inline-flex; align-items:center; gap:5px; white-space:nowrap;
+}
+.badge svg{ width:14px; height:14px }
+.badge.gray{ background:#F1F5F9; color:#475569; border-color:#CBD5E1 }
+
+.ind-meter{ height:9px; background:var(--navy-100); border-radius:5px; overflow:hidden; margin:9px 0 }
+.ind-meter span{ display:block; height:100%; border-radius:5px; transition:width .5s ease }
+
+.ind-adv{
+  background:var(--navy-50); border:1px dashed var(--navy-200); border-radius:var(--radius-sm);
+  padding:11px 13px; margin-top:10px; font-size:13.5px; color:var(--navy-700); line-height:1.85;
+}
+.ind-adv strong{ color:var(--navy-800) }
+
+.mech-label{ font-size:12px; font-weight:800; color:var(--navy-600); margin:11px 0 7px; display:flex; align-items:center; gap:6px }
+.mech-label svg{ width:14px; height:14px }
+.mech-chips{ display:flex; flex-wrap:wrap; gap:8px }
+.chip{
+  font-size:12.5px; font-weight:600; padding:6px 13px; border-radius:20px;
+  border:1.5px solid; display:inline-flex; align-items:center; gap:6px;
+  cursor:default; transition:transform .12s;
+}
+.chip:hover{ transform:translateY(-1px) }
+.chip::before{ content:"✔"; font-size:11px; font-weight:900 }
+.chip.c1{ background:#E0F2FE; border-color:#7DD3FC; color:#075985 }
+.chip.c2{ background:#FEF3C7; border-color:#FCD34D; color:#92400E }
+.chip.c3{ background:#DCFCE7; border-color:#86EFAC; color:#166534 }
+.chip.c4{ background:#FCE7F3; border-color:#F9A8D4; color:#9D174D }
+.chip.c5{ background:#EDE9FE; border-color:#C4B5FD; color:#5B21B6 }
+
+.ind-edit{ margin-right:auto; display:flex; align-items:center; gap:7px }
+.ind-edit input{
+  width:78px; font-family:inherit; font-size:13px; font-weight:700; text-align:center;
+  padding:5px 8px; border:1.5px solid var(--navy-200); border-radius:8px;
+}
+.ind-edit input:focus{ outline:none; border-color:var(--navy-500); box-shadow:0 0 0 3px var(--navy-100) }
+.ind-edit span{ font-size:12.5px; font-weight:700; color:var(--muted) }
+
+/* ============================ بطاقة الخطة ============================ */
+.plan-card{ border-top:4px solid var(--navy-500) }
+.plan-row{ display:grid; grid-template-columns:170px 1fr; gap:14px; padding:12px 0; border-bottom:1px dashed var(--line) }
+.plan-row:last-child{ border-bottom:none }
+.plan-key{ display:flex; align-items:center; gap:8px; font-weight:700; font-size:13.5px; color:var(--navy-700) }
+.plan-key svg{ width:17px; height:17px; flex-shrink:0 }
+.plan-val{ font-size:14px; line-height:1.9; color:var(--ink) }
+.plan-hint{
+  display:flex; align-items:center; gap:7px;
+  margin:0 0 6px; font-size:12.5px; color:var(--muted);
+}
+.plan-hint svg{ width:15px; height:15px; color:var(--navy-400) }
+.plan-val ol,.plan-val ul{ margin:4px 0; padding-right:20px }
+.plan-val li{ margin-bottom:5px }
+.plan-val[contenteditable="true"]:focus{
+  outline:2px dashed var(--navy-300); outline-offset:6px; border-radius:6px; background:var(--navy-50);
+}
+.plan-val ul.clean{ list-style:none; padding:0 }
+.plan-val ul.clean li{ position:relative; padding-right:20px; margin-bottom:6px }
+.plan-val ul.clean li::before{
+  content:""; position:absolute; right:6px; top:11px; width:6px; height:6px;
+  border-radius:50%; background:var(--navy-400);
+}
+
+/* ============================ الملاحظات والتنبيهات ============================ */
+.notes{ display:flex; flex-direction:column; gap:10px }
+.note{
+  display:flex; gap:11px; align-items:flex-start; padding:12px 15px; border-radius:var(--radius-sm);
+  background:var(--navy-50); border:1px solid var(--navy-200); border-right:4px solid var(--navy-500);
+  font-size:13.5px; line-height:1.8;
+}
+.note svg{ width:18px; height:18px; flex-shrink:0; margin-top:3px }
+.note.warn{ background:#FEF2F2; border-color:#FECACA; border-right-color:var(--lvl-tahyea) }
+.note.warn svg{ color:var(--lvl-tahyea) }
+.note.ok{ background:#F0FDF4; border-color:#BBF7D0; border-right-color:var(--lvl-tamayyuz) }
+.note.ok svg{ color:var(--lvl-tamayyuz) }
+
+.empty{
+  text-align:center; padding:50px 24px; color:var(--muted);
+}
+.empty svg{ width:62px; height:62px; color:var(--navy-300); margin-bottom:14px }
+.empty h3{ margin:0 0 7px; color:var(--navy-700); font-size:16px }
+.empty p{ margin:0 auto; max-width:520px; font-size:14px; line-height:1.85 }
+
+/* ============================ الاستيراد ============================ */
+.drop{
+  border:2.5px dashed var(--navy-300); border-radius:var(--radius); padding:30px 22px;
+  text-align:center; background:var(--navy-50); transition:background .2s, border-color .2s; cursor:pointer;
+}
+.drop:hover,.drop.over{ background:var(--navy-100); border-color:var(--navy-500) }
+.drop svg{ width:44px; height:44px; color:var(--navy-400); margin-bottom:10px }
+.drop h3{ margin:0 0 6px; color:var(--navy-700); font-size:15px }
+.drop p{ margin:0; font-size:13px; color:var(--muted); line-height:1.8 }
+.drop code{ background:#fff; padding:2px 7px; border-radius:5px; border:1px solid var(--navy-200); font-size:12px }
+.fmt-row{ display:flex; gap:9px; flex-wrap:wrap; justify-content:center; margin-top:14px }
+
+/* شريط تقدّم التحليل البصري */
+.prog-track{ height:9px; background:var(--navy-100); border-radius:5px; overflow:hidden }
+.prog-bar{
+  height:100%; width:0; border-radius:5px;
+  background:linear-gradient(90deg,var(--navy-600),var(--navy-400));
+  transition:width .35s ease;
+}
+.prog-text{ font-size:13px; font-weight:700; color:var(--navy-700); margin-top:7px }
+.prog-hint{ font-size:12px; color:var(--muted); line-height:1.75; margin-top:3px }
+
+/* ============================ شريط التنقل السفلي ============================ */
+.foot{
+  text-align:center; padding:22px; font-size:12.5px; color:var(--muted);
+  border-top:1px solid var(--line); margin-top:30px; line-height:1.9;
+}
+
+/* ============================ نافذة منبثقة ============================ */
+.modal-bg{
+  position:fixed; inset:0; background:rgba(6,32,58,.62); backdrop-filter:blur(3px);
+  display:none; align-items:center; justify-content:center; z-index:100; padding:20px;
+}
+.modal-bg.show{ display:flex }
+.modal{
+  background:#fff; border-radius:var(--radius); max-width:520px; width:100%;
+  box-shadow:var(--shadow-lg); overflow:hidden; animation:pop .22s ease;
+}
+@keyframes pop{ from{transform:translateY(14px) scale(.97); opacity:0} to{transform:none; opacity:1} }
+.modal-head{ background:var(--navy-700); color:#fff; padding:15px 20px; font-weight:700; font-size:15.5px }
+.modal-body{ padding:20px; font-size:14px; line-height:1.9 }
+.modal-foot{ padding:0 20px 20px; display:flex; gap:9px; justify-content:flex-start }
+
+/* ============================ التنبيهات ============================ */
+#toast-host{ position:fixed; top:88px; left:50%; transform:translateX(-50%); z-index:200; display:flex; flex-direction:column; gap:9px; align-items:center }
+.toast{
+  background:var(--navy-800); color:#fff; padding:12px 20px; border-radius:10px;
+  box-shadow:var(--shadow-lg); font-size:13.5px; font-weight:600;
+  display:flex; align-items:center; gap:9px; animation:slide .25s ease; max-width:90vw;
+}
+.toast svg{ width:18px; height:18px; flex-shrink:0 }
+.toast.ok{ background:#15803D } .toast.err{ background:#B91C1C } .toast.warn{ background:#B45309 }
+@keyframes slide{ from{transform:translateY(-14px); opacity:0} to{transform:none; opacity:1} }
+
+/* ============================ الطباعة ============================ */
+@media print{
+  @page{ size:A4; margin:12mm 11mm; }
+  body{ background:#fff; font-size:10.5pt; line-height:1.6 }
+  .topbar{
+    position:static; background:#fff !important; color:var(--ink) !important;
+    box-shadow:none; border-bottom:2.5px solid var(--navy-700); padding:0 0 8px;
+  }
+  .topbar-inner{ min-height:auto; padding:8px 0; gap:12px }
+  .brand h1{ color:var(--navy-800); font-size:14pt }
+  .brand p{ color:var(--muted) }
+  .logo-box{ background:#fff; box-shadow:none; border:1px solid var(--line); padding:4px 8px }
+  .logo-box svg{ height:40px }
+  .topbar-actions, .no-print, .toolbar, .drop, .modal-bg, #toast-host, .foot .no-print{ display:none !important }
+
+  .wrap{ max-width:100%; padding:10px 0 0 }
+  .card{ box-shadow:none; border:1px solid #CBD5E1; border-radius:8px; margin-bottom:12px; break-inside:avoid }
+  .card-head{ background:var(--navy-50) !important; padding:9px 12px }
+  .card-body{ padding:12px }
+  .card-head h2{ font-size:12pt }
+
+  /* طباعة كل المجالات معاً */
+  #print-all{ display:block !important }
+  .domain-print{ break-inside:avoid-page; page-break-inside:avoid; border:1px solid #CBD5E1; border-radius:8px; padding:12px 14px; margin-bottom:12px; background:#fff }
+  .domain-print h3{ margin:0 0 6px; font-size:12.5pt; color:var(--navy-800); display:flex; align-items:center; gap:8px }
+  .domain-print .dp-head{ border-bottom:1.5px solid var(--navy-200); padding-bottom:7px; margin-bottom:9px; display:flex; align-items:center; gap:9px; flex-wrap:wrap }
+  .print-ind{ display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center; padding:5px 0; border-bottom:1px dotted #E2E8F0; font-size:10pt }
+  .print-ind:last-child{ border-bottom:none }
+  .print-ind .pc{ font-family:Consolas,monospace; font-weight:700; color:var(--navy-700); background:var(--navy-50); padding:1px 6px; border-radius:4px; font-size:9pt }
+  .print-mech{ font-size:9pt; color:var(--muted); padding-right:8px }
+
+  .ind{ break-inside:avoid; page-break-inside:avoid }
+  .ind-adv{ display:none }
+  .mech-chips .chip{ font-size:8.5pt; padding:2px 8px }
+  .badge{ font-size:8.5pt; padding:2px 8px }
+  .grid-4{ grid-template-columns:repeat(4,1fr) }
+  .grid-3{ grid-template-columns:repeat(3,1fr) }
+  .summary{ grid-template-columns:240px 1fr }
+  a[href]:after{ content:"" }
+}
+
+#print-all{ display:none }

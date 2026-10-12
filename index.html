@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة خطة تحسين نتائج التقويم المدرسي — وزارة التعليم</title>
+<meta name="description" content="منصة لإدراج نتائج التقويم المدرسي وتحليلها وترتيب المؤشرات من الأدنى إلى الأعلى وتوليد خطة تحسين جاهزة للطباعة والحفظ PDF.">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="icon" href="assets/img/logo-moe.svg" type="image/svg+xml">
+</head>
+<body>
+
+<!-- ===================== الشريط العلوي ===================== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo-box">
+      <img src="assets/img/logo-moe.svg" alt="شعار وزارة التعليم">
+    </div>
+    <div class="brand">
+      <h1>منصة خطة تحسين نتائج التقويم المدرسي</h1>
+      <p>Ministry of Education — School Evaluation Improvement Plan</p>
+    </div>
+    <div class="topbar-actions no-print">
+      <button class="btn" id="btn-import" title="استيراد تقرير المدرسة (Excel / CSV / JSON / PDF)"><span data-ico="upload"></span> استيراد ملف</button>
+      <button class="btn btn-primary" id="btn-save"><span data-ico="save"></span> حفظ</button>
+      <button class="btn btn-gold" id="btn-print"><span data-ico="printer"></span> طباعة / حفظ PDF</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="screen-view">
+
+    <!-- ===================== 1. بيانات المدرسة ===================== -->
+    <section class="card">
+      <div class="card-head">
+        <h2>البيانات الأساسية للمدرسة</h2>
+        <span class="chip-count" id="stage-chip">—</span>
+        <span class="spacer"></span>
+        <span class="no-print" style="font-size:12px;color:var(--muted)">الحقول تُملأ تلقائيًا عند استيراد التقرير</span>
+      </div>
+      <div class="card-body">
+        <div class="grid grid-4" id="school-fields"></div>
+      </div>
+    </section>
+
+    <!-- ===================== 2. الأداء العام ===================== -->
+    <section class="card">
+      <div class="card-head">
+        <h2>الأداء العام للمدرسة ومستويات الأداء</h2>
+        <span class="spacer"></span>
+        <span class="chip-count">مرتب من الأدنى إلى الأعلى</span>
+      </div>
+      <div class="card-body">
+        <div class="summary">
+          <div class="ring-wrap">
+            <div class="ring" id="ring"></div>
+            <div class="lvl-strip" id="lvl-strip"></div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 4px;font-size:15px;color:var(--navy-700)">أداء المدرسة وفق المجالات</h3>
+            <p style="margin:0 0 14px;font-size:12.5px;color:var(--muted)">
+              تُرتَّب المجالات من الأضعف إلى الأقوى، فالمجال الأول هو الأكثر حاجةً للتدخل.
+            </p>
+            <div class="dom-bars" id="domain-bars"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 3. أبرز الملاحظات ===================== -->
+    <section class="card">
+      <div class="card-head">
+        <h2>أبرز الملاحظات والمؤشرات الحرجة</h2>
+      </div>
+      <div class="card-body">
+        <div class="notes" id="notes"></div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. استيراد الملفات ===================== -->
+    <section class="card no-print">
+      <div class="card-head">
+        <h2>استيراد ملف المدرسة وتحليله</h2>
+        <span class="spacer"></span>
+        <span class="chip-count">Excel · CSV · JSON · PDF</span>
+      </div>
+      <div class="card-body">
+        <div class="drop" id="drop">
+          <span data-ico="upload"></span>
+          <h3>اسحب ملف تقرير المدرسة هنا أو اضغط للاختيار</h3>
+          <p>
+            تُقرأ نسب المؤشرات تلقائيًا من ملف <code>xlsx / xls</code> أو <code>csv</code>
+            أو <code>json</code>، وكذلك ملفات <code>pdf</code> التي تحتوي نصًا قابلًا للقراءة.<br>
+            الصيغ المدعومة في الجدول: <code>رمز المؤشر</code> (مثل 1-1-1-1) و <code>النسبة %</code>،
+            أو اسم <code>المجال / المعيار</code> مع النسبة، أو <code>مستوى الأداء</code> (التهيئة / الانطلاق / التقدم / التميز).
+          </p>
+          <div class="fmt-row">
+            <button class="btn btn-ghost btn-sm" id="tpl-xlsx"><span data-ico="file"></span> قالب Excel</button>
+            <button class="btn btn-ghost btn-sm" id="tpl-csv"><span data-ico="download"></span> قالب CSV</button>
+            <button class="btn btn-ghost btn-sm" id="tpl-json"><span data-ico="download"></span> قالب JSON</button>
+          </div>
+        </div>
+
+        <!-- شريط تقدّم التحليل البصري -->
+        <div id="ocr-progress" style="display:none;margin-top:14px">
+          <div class="prog-track"><div class="prog-bar" id="ocr-bar"></div></div>
+          <div class="prog-text" id="ocr-text"></div>
+          <div class="prog-hint">
+            التحليل البصري (OCR) يعمل داخل جهازك بالكامل ولا تُرسل أي بيانات إلى الإنترنت.
+            قد تستغرق قراءة التقرير الممسوح ضوئيًا دقيقة أو أكثر حسب عدد الصفحات.
+          </div>
+        </div>
+        <input type="file" id="file-input" accept=".xlsx,.xls,.csv,.txt,.json,.pdf" hidden>
+      </div>
+    </section>
+
+    <!-- ===================== 5. شريط اختيار المجال ===================== -->
+    <div class="toolbar no-print">
+      <div class="field-inline">
+        <label for="domain-select">المجال</label>
+        <select class="select" id="domain-select"></select>
+      </div>
+      <div class="field-inline">
+        <label for="crit-select">المعيار</label>
+        <select class="select" id="crit-select" style="min-width:220px">
+          <option value="all">كل المعايير</option>
+        </select>
+      </div>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost btn-sm" id="btn-export"><span data-ico="download"></span> تصدير البيانات</button>
+      <button class="btn btn-danger btn-sm" id="btn-reset"><span data-ico="trash"></span> مسح الكل</button>
+    </div>
+
+    <!-- ===================== 6. مؤشرات المجال ===================== -->
+    <section class="card" id="domain-panel"></section>
+
+    <!-- ===================== 7. خطة التحسين ===================== -->
+    <div id="plan-host"></div>
+
+  </div><!-- /screen-view -->
+
+  <!-- ===================== عرض الطباعة ===================== -->
+  <div id="print-all"></div>
+
+  <!-- ===================== التذييل ===================== -->
+  <div class="foot">
+    <div style="font-weight:700;color:var(--navy-700)">منصة خطة تحسين نتائج التقويم المدرسي</div>
+    <div>مستويات الأداء وفق معايير هيئة تقويم التعليم والتدريب:
+         التهيئة (أقل من 50%) · الانطلاق (50–75%) · التقدم (75–90%) · التميز (90% فأكثر)</div>
+    <div class="no-print" style="margin-top:6px">
+      البيانات تُحفظ محليًا في متصفح هذا الجهاز فقط ولا تُرسل إلى أي جهة.
+    </div>
+  </div>
+</div>
+
+<!-- ===================== نافذة تأكيد المسح ===================== -->
+<div class="modal-bg" id="modal-reset">
+  <div class="modal">
+    <div class="modal-head">تأكيد مسح جميع البيانات</div>
+    <div class="modal-body">
+      سيتم حذف بيانات المدرسة وجميع النسب وتعديلات الخطة نهائيًا.
+      <strong>ننصح بتصدير البيانات أولًا</strong> عبر زر «تصدير البيانات».
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-danger" id="btn-yes-reset">نعم، امسح الكل</button>
+      <button class="btn btn-ghost" id="btn-no-reset">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-host"></div>
+
+<script src="assets/vendor/xlsx.full.min.js"></script>
+<script src="assets/vendor/pdf.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/importer.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

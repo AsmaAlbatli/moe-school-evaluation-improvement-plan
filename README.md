@@ -14,11 +14,11 @@
 | المنصة | الرابط المباشر | الوصف |
 |---|---|---|
 | **منصة خطة تحسين نتائج التقويم المدرسي** | [فتح المنصة](index.html) | ترتيب المؤشرات من الأدنى إلى الأعلى وتوليد خطة تحسين جاهزة للطباعة. |
-| **منصة متابعة مستهدفات نافس** | [فتح المنصة](nafs-targets-platform/index.html) | تحليل بطاقات نافس (PDF وصور)، الموقع من المستهدفات الوطنية، مقارنة المدارس، وتحديد مستوى كل مرحلة وفق خط الأساس. |
+| **منصة متابعة مستهدفات نافس** | [فتح المنصة](https://asmaalbatli.github.io/nafs-targets-platform/) | تحليل بطاقات نافس (PDF وصور)، الموقع من المستهدفات الوطنية، مقارنة المدارس، وتحديد مستوى كل مرحلة وفق خط الأساس. |
 
 **الموقع المنشور (متاح للجميع):**
 - https://asmaalbatli.github.io/moe-school-evaluation-improvement-plan/
-- https://asmaalbatli.github.io/moe-school-evaluation-improvement-plan/nafs-targets-platform/
+- https://asmaalbatli.github.io/nafs-targets-platform/  ← منصة متابعة مستهدفات نافس
 
 > تفاصيل منصة نافس في الملف: nafs-targets-platform/README.md
 

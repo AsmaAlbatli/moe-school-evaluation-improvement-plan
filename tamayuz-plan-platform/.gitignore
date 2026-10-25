@@ -1,0 +1,29 @@
+# ==========================================================
+# حماية أسرار Supabase وملفات الـ API المحلية
+# لا تُرفع هذه الملفات إلى GitHub أو GitHub Pages.
+# ==========================================================
+
+# متغيرات البيئة المحلية
+.env
+.env.*
+!.env.example
+
+# إعدادات Supabase CLI المؤقتة
+supabase/.temp/
+supabase/.branches/
+
+# ملفات إعداد/مفاتيح محلية (anon key العامة توضع في index.html فقط)
+supabase-config.local.js
+supabase-config.private.js
+
+# أسماء شائعة لملفات الـ API الآمنة
+*supabase*api*
+*secure*api*
+*service*role*
+*secret*.json
+*.secret
+*.secrets
+*.pem
+*.key
+*.p12
+*.pfx

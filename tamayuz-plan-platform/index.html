@@ -8,6 +8,18 @@
 <meta name="theme-color" content="#006c35">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23006c35'/%3E%3Cpath d='M32 9l6.2 16.8L55 32l-16.8 6.2L32 55l-6.2-16.8L9 32l16.8-6.2z' fill='%23fff'/%3E%3C/svg%3E">
 <title>منصة تفريغ خطة التحسين في منصة تميز — تصميم المشرفة أسماء الباتلي</title>
+<!--
+  إعدادات Supabase العامة (Project URL + anon/publishable key فقط).
+  لا تضع هنا service_role أو أي مفتاح سري؛ فهو مخصص للخادم فقط.
+  يمكن تعبئة القيمتين من لوحة تحكم Supabase: Project Settings ← API.
+-->
+<script>
+window.TAMAYUZ_SUPABASE = Object.assign({
+  url: '',
+  anonKey: ''
+}, window.TAMAYUZ_SUPABASE || {});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer onerror="this.onerror=null;this.src='https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js'"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -373,6 +385,50 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(prefers-reduced-motion:reduce){
  .logo-box,.pill,.fcard:before,.fbtn,.fbtn i{transition:none;animation:none}
 }
+/* ===== Supabase: الحساب والملاحظات السحابية ===== */
+.cloudbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:7px 10px;margin:10px 0 0;color:#e7f2eb;font-size:12.5px;line-height:1.5}
+.cloudbar .dot{width:9px;height:9px;border-radius:50%;background:#aab8b0;box-shadow:0 0 0 3px rgba(255,255,255,.08);flex:0 0 auto}
+.cloudbar .dot.ok{background:#6ee7a0;box-shadow:0 0 0 3px rgba(110,231,160,.14)}
+.cloudbar .dot.warn{background:#f4c15d;box-shadow:0 0 0 3px rgba(244,193,93,.16)}
+.cloudbar .dot.err{background:#ff8d80;box-shadow:0 0 0 3px rgba(255,141,128,.16)}
+.cloudbar .dot.load{background:#8fc7ff;animation:cloudPulse 1.1s infinite}
+@keyframes cloudPulse{50%{opacity:.35}}
+.cloudbar .spacer{margin-inline-start:auto}
+.cloudbar .cbtn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;line-height:1.7}
+.cloudbar .cbtn:hover{background:rgba(255,255,255,.2)}
+.cloudbar .cbtn.primary{background:#fff;color:#004a25;border-color:#fff}
+.cloud-mdl{width:min(680px,100%)}
+.cloud-mdl .mdl-b{border:0;margin:0;padding:4px 20px 18px;max-height:calc(100vh - 155px)}
+.cloud-intro{background:#f1faf4;border:1px solid #cbe8d6;border-radius:12px;padding:10px 12px;color:#24543a;font-size:13px;line-height:1.8;margin:4px 0 10px}
+.cloud-tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin:8px 0 10px}
+.cloud-tabs button{border:0;background:none;padding:8px 12px;font-weight:800;color:var(--mute);border-bottom:3px solid transparent;border-radius:8px 8px 0 0}
+.cloud-tabs button.on{color:#006c35;border-bottom-color:#006c35;background:#f4fbf6}
+.cloud-msg{min-height:24px;font-size:13px;line-height:1.8;margin:8px 0;padding:7px 10px;border-radius:8px;background:#f7f9f8;color:var(--mute);white-space:pre-wrap}
+.cloud-msg:empty{display:none}
+.cloud-msg.err{background:#fdeceb;color:#9b3026;border:1px solid #f4c9c4}
+.cloud-msg.ok{background:#eaf7ef;color:#1d6b41;border:1px solid #bfe3cc}
+.cloud-msg.warn{background:#fff6e2;color:#7a5500;border:1px solid #f0d49a}
+.cloud-account{background:#f1faf4;border:1px solid #cbe8d6;border-radius:12px;padding:12px;margin:8px 0 10px;line-height:1.9}
+.cloud-account b{direction:ltr;unicode-bidi:isolate}
+.cloud-hint{font-size:12px;color:var(--mute);line-height:1.8;margin-top:8px}
+.cloud-notes{display:grid;gap:9px;margin-top:8px}
+.cloud-note-item{border:1px solid #d9e5de;border-radius:12px;background:#fff;padding:10px 12px;box-shadow:0 2px 9px rgba(16,34,56,.04)}
+.cloud-note-item h4{margin:0 0 3px;font-size:14.5px;color:#17452e;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.cloud-note-item .meta{font-size:11.5px;color:var(--mute);margin-bottom:5px}
+.cloud-note-item .body{font-size:13.5px;white-space:pre-wrap;word-break:break-word;line-height:1.9;max-height:180px;overflow:auto}
+.cloud-note-item .acts{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.cloud-note-item .acts button{border:1px solid #d7e2df;background:#f8fbf9;border-radius:7px;padding:2px 9px;font-size:12px;font-weight:700;color:#24543a}
+.cloud-note-item .acts button:hover{background:#eaf7ef}
+.cloud-note-item .acts button.del{color:#a23b3b;background:#fff6f5;border-color:#f0cfcb}
+.cloud-badge{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:20px;background:#e8f5ec;color:#1d6b41;font-size:12px;font-weight:800;padding:0 7px}
+.cloud-empty{border:1px dashed #cfe0d6;border-radius:12px;padding:22px 12px;text-align:center;color:var(--mute);font-size:13px;background:#fbfdfb}
+.cloud-check{font-size:12.5px;color:var(--mute);display:flex;gap:6px;align-items:flex-start;margin:8px 0}
+.cloud-check input{margin-top:4px}
+@media(max-width:560px){
+ .cloudbar{font-size:11.5px;gap:6px;padding:7px 8px}
+ .cloudbar .cbtn{font-size:11.5px;padding:3px 8px}
+ .cloud-mdl .mdl-b{padding-inline:14px;max-height:calc(100vh - 120px)}
+}
 </style>
 </head>
 <body data-theme="default">
@@ -395,6 +451,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       <button type="button" role="menuitem" data-nav="guide"><span class="mi" aria-hidden="true">📘</span><span>دليل الخطوات</span></button>
       <button type="button" role="menuitem" data-nav="set"><span class="mi" aria-hidden="true">⚙️</span><span>الإعدادات</span></button>
       <div class="menu-sep" role="separator"></div>
+      <div class="menu-h">الحساب والملاحظات</div>
+      <button type="button" role="menuitem" data-cloud="notes"><span class="mi" aria-hidden="true">🗒️</span><span>ملاحظاتي السحابية</span></button>
+      <button type="button" role="menuitem" data-cloud="auth" id="cloudMenuAuth"><span class="mi" aria-hidden="true">👤</span><span>تسجيل الدخول / حسابي</span></button>
+      <div class="menu-sep" role="separator"></div>
       <div class="menu-h">إجراءات سريعة</div>
       <button type="button" role="menuitem" data-act="saveNow"><span class="mi" aria-hidden="true">💾</span><span>حفظ الآن</span></button>
       <button type="button" role="menuitem" data-act="print"><span class="mi" aria-hidden="true">🖨️</span><span>طباعة الخطة</span></button>
@@ -412,6 +472,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
    </div>
   </div>
   <nav class="nav" id="nav"></nav>
+  <div class="cloudbar" id="cloudBar" aria-live="polite">
+   <span class="dot" id="cloudDot" aria-hidden="true"></span>
+   <span id="cloudTxt">جارٍ تهيئة التخزين السحابي…</span>
+   <span class="spacer"></span>
+   <button class="cbtn" type="button" data-cloud="notes" id="cloudNotesBtn" title="ملاحظاتي السحابية">🗒️ ملاحظاتي</button>
+   <button class="cbtn primary" type="button" data-cloud="auth" id="cloudAuthBtn" title="تسجيل الدخول إلى الحساب السحابي">👤 تسجيل الدخول</button>
+  </div>
  </div>
 </header>
 
@@ -542,6 +609,77 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
  </div>
 </div>
 </div>
+
+<!-- modal: Supabase account -->
+<div class="ov no-print" id="authOv" aria-hidden="true">
+ <div class="mdl cloud-mdl" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="mdl-h"><span id="authTitle">الحساب السحابي</span><button class="ic-btn" type="button" data-cloud="closeAuth" aria-label="إغلاق">✕</button></div>
+  <div class="mdl-b">
+   <div class="cloud-intro">سجّل الدخول بحسابك لحفظ خطة التحسين وملاحظاتك في قاعدة بيانات Supabase، والوصول إليها من أي جهاز. بياناتك محمية بقواعد RLS، ولا يراها إلا حسابك.</div>
+   <div id="authSetup" class="cloud-msg err" hidden></div>
+   <div id="authAccount" hidden>
+    <div class="cloud-account">مسجّل الدخول باسم: <b id="authEmail" dir="ltr"></b><div id="authSince" class="cloud-hint"></div></div>
+    <div class="row" style="flex-wrap:wrap">
+     <button class="gr" type="button" data-cloud="notes">🗒️ ملاحظاتي</button>
+     <button class="gy" type="button" data-cloud="closeAuth">إغلاق</button>
+     <button class="sm" type="button" data-cloud="logout" style="color:#a23b3b;border-color:#f0cfcb">🚪 تسجيل الخروج</button>
+    </div>
+   </div>
+   <div id="authForms">
+    <div class="cloud-tabs" role="tablist" aria-label="تسجيل الدخول أو إنشاء حساب">
+     <button type="button" role="tab" id="authTabLogin" data-cloud="authTab" data-tab="login" class="on" aria-selected="true">تسجيل الدخول</button>
+     <button type="button" role="tab" id="authTabSignup" data-cloud="authTab" data-tab="signup" aria-selected="false">إنشاء حساب</button>
+    </div>
+    <form id="authForm" autocomplete="on">
+     <div class="fld"><label for="authEmailInput">البريد الإلكتروني</label><input class="inp" id="authEmailInput" type="email" inputmode="email" autocomplete="email" dir="ltr" required placeholder="name@example.com"></div>
+     <div class="fld"><label for="authPass">كلمة المرور</label><input class="inp" id="authPass" type="password" autocomplete="current-password" dir="ltr" required minlength="6" placeholder="••••••••"></div>
+     <div class="fld" id="authConfirmWrap" hidden><label for="authPass2">تأكيد كلمة المرور</label><input class="inp" id="authPass2" type="password" autocomplete="new-password" dir="ltr" minlength="6" placeholder="••••••••"></div>
+     <div class="row" style="flex-wrap:wrap">
+      <button class="gr" type="submit" id="authSubmitBtn">تسجيل الدخول</button>
+      <button class="sm" type="button" data-cloud="authForgot">نسيت كلمة المرور؟</button>
+      <button class="gy" type="button" data-cloud="closeAuth">متابعة كزائر</button>
+     </div>
+    </form>
+    <div id="authMsg" class="cloud-msg" role="status" aria-live="polite"></div>
+    <div class="cloud-hint">الحساب الآمن: استخدم بريدًا وكلمة مرور قوية. لا تشارك كلمة المرور مع أحد. عند إنشاء حساب جديد قد يلزم تأكيد البريد قبل الدخول.</div>
+   </div>
+   <div id="authRecovery" hidden>
+    <div class="cloud-intro">وصلت من رابط استعادة كلمة المرور. اختر كلمة مرور جديدة لحسابك، ثم يمكنك متابعة العمل مباشرة.</div>
+    <form id="recoveryForm" autocomplete="off">
+     <div class="fld"><label for="recoveryPass">كلمة المرور الجديدة</label><input class="inp" id="recoveryPass" type="password" autocomplete="new-password" dir="ltr" required minlength="6" placeholder="••••••••"></div>
+     <div class="fld"><label for="recoveryPass2">تأكيد كلمة المرور الجديدة</label><input class="inp" id="recoveryPass2" type="password" autocomplete="new-password" dir="ltr" required minlength="6" placeholder="••••••••"></div>
+     <div class="row" style="flex-wrap:wrap"><button class="gr" type="submit" id="recoveryBtn">حفظ كلمة المرور</button><button class="gy" type="button" data-cloud="closeAuth">إلغاء</button></div>
+    </form>
+    <div id="recoveryMsg" class="cloud-msg" role="status" aria-live="polite"></div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- modal: cloud notes -->
+<div class="ov no-print" id="notesOv" aria-hidden="true">
+ <div class="mdl cloud-mdl" role="dialog" aria-modal="true" aria-labelledby="notesTitle">
+  <div class="mdl-h"><span id="notesTitle">🗒️ ملاحظاتي السحابية</span><button class="ic-btn" type="button" data-cloud="closeNotes" aria-label="إغلاق">✕</button></div>
+  <div class="mdl-b">
+   <div id="notesAuthNote" class="cloud-msg warn">سجّل الدخول لعرض ملاحظاتك وحفظها في حسابك.</div>
+   <form id="noteForm" autocomplete="off">
+    <input type="hidden" id="noteId">
+    <div class="fld"><label for="noteTitle">عنوان الملاحظة</label><input class="inp" id="noteTitle" maxlength="120" placeholder="مثال: ملاحظة على خطة مؤشر 1-1-1-1"></div>
+    <div class="fld"><label for="noteBody">نص الملاحظة <span class="req">*</span></label><textarea class="inp" id="noteBody" maxlength="10000" required placeholder="اكتب ملاحظتك هنا…"></textarea><div class="cloud-hint"><span id="noteCount">0</span>/10000</div></div>
+    <div class="row" style="flex-wrap:wrap">
+     <button class="gr" type="submit" id="noteSaveBtn">إضافة الملاحظة</button>
+     <button class="sm" type="button" data-cloud="noteCancel" id="noteCancelBtn" hidden>إلغاء التعديل</button>
+     <button class="sm" type="button" data-cloud="notesRefresh">🔄 تحديث</button>
+    </div>
+   </form>
+   <div id="noteMsg" class="cloud-msg" role="status" aria-live="polite"></div>
+   <div class="row" style="margin:12px 0 2px;justify-content:space-between"><b>ملاحظاتي</b><span class="cloud-badge" id="notesCount">0</span></div>
+   <div id="notesList" class="cloud-notes"></div>
+   <div class="cloud-hint" id="notesHint">الملاحظات مرتبطة بحسابك فقط، ولا يمكن لمستخدم آخر قراءتها أو تعديلها بفضل سياسات RLS.</div>
+  </div>
+ </div>
+</div>
+
 <div id="printView" class="pv"></div>
 <div class="toast" id="toast"></div>
 
@@ -552,7 +690,6 @@ const DOMEX={"teaching":"تقوم اللجان المدرسية بمتابعة �
 const LV=['التهيئة','الانطلاق','التقدم','التميز'];
 const PW=['تطوير','تطوير','استدامة','ابتكار'];
 const SRC={A:'منصة توليد خطة التحسين',B:'منصة تحسين نتائج التقويم',C:'منصة بناء الخطة (التقويم الذاتي)',D:'منصة الممارسات الإشرافية',E:'توقعات تقرير الهيئة'};
-const KEY='tamayuz_plan_asmaa_v1';
 const MAX=500;
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -561,8 +698,8 @@ function hij(v){if(!v)return '';try{return new Intl.DateTimeFormat('ar-SA-u-ca-i
 function dmy(v){if(!v)return '';const p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
 const DEF=()=>({set:{school:'',region:'',year:hYear(),stage:'',type:'حكومي',principal:'',from:'',to:'',fmt:'num',theme:'default',printCliche:'1',logo:''},dom:1,std:{1:[],2:[],3:[],4:[]},act:{},plans:{},open:{},ack:false,ackName:'',ackDate:''});
 let S=DEF();
-try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(o){S=Object.assign(DEF(),o);S.set=Object.assign(DEF().set,o.set||{});S.std=Object.assign(DEF().std,o.std||{})}}catch(e){}
-let sT;function save(){clearTimeout(sT);sT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('تعذر الحفظ: مساحة التخزين ممتلئة')}},150)}
+/* الحفظ أصبح سحابيًا عبر Supabase. هذا الغلاف يرسل التغييرات إلى TamayuzCloud بعد تهيئة الحساب. */
+function save(){if(window.TamayuzCloud)window.TamayuzCloud.queueSave()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2300)}
 
 /* ===== الإطار والفهرسة ===== */
@@ -953,7 +1090,7 @@ document.addEventListener('click',e=>{
   case 'word':exportWord();break;
   case 'wordDom':exportWord(+a.dataset.d);break;
   case 'sigClr':{const cv=$('#sig');cv.getContext('2d').clearRect(0,0,cv.width,cv.height);SIG={has:false,url:''};break}
-  case 'saveNow':save();toast('💾 الحفظ تلقائي — كل تعديل محفوظ في هذا المتصفح');break;
+  case 'saveNow':if(window.TamayuzCloud)window.TamayuzCloud.saveNow();else toast('أضف إعدادات Supabase لتفعيل الحفظ السحابي');break;
   case 'backup':dl('خطة-تميز-'+(S.set.school||'نسخة')+'.json',JSON.stringify(S));toast('صُدّرت النسخة الاحتياطية');break;
   case 'restore':$('#restIn').click();break;
   case 'reset':if(confirm('مسح جميع البيانات نهائيًا؟ يُنصح بتصدير نسخة احتياطية أولًا.')){S=DEF();save();applyTheme();nav('build')}break;
@@ -1128,11 +1265,12 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-act="word"
 </script>
 <script>
 /* ===== إضافة: مسح عام لكل شيء (الإعدادات، المعايير، الخطط المولّدة، الدرجات المستوردة) والبدء من جديد ===== */
-document.addEventListener('click',e=>{const b=e.target.closest('[data-act="resetAll"]');if(!b)return;e.stopImmediatePropagation();e.preventDefault();
- if(!confirm('🗑️ مسح عام لكل شيء؟\nسيُحذف: بيانات المدرسة، المجالات والمعايير المختارة، جميع الخطط المولّدة والمحفوظة، الدرجات المستوردة، والتوقيع والشعار.\n\nيُنصح بتصدير نسخة احتياطية أولًا.'))return;
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-act="resetAll"]');if(!b)return;e.stopImmediatePropagation();e.preventDefault();
+ if(!confirm('🗑️ مسح عام لكل شيء؟\nسيُحذف: بيانات المدرسة، المجالات والمعايير المختارة، جميع الخطط المولّدة والمحفوظة، الملاحظات السحابية، الدرجات المستوردة، والتوقيع والشعار.\n\nيُنصح بتصدير نسخة احتياطية أولًا.'))return;
  if(!confirm('تأكيد أخير: لا يمكن التراجع عن المسح. متابعة؟'))return;
- try{clearTimeout(sT)}catch(_){}
- try{localStorage.removeItem(KEY)}catch(_){}
+ try{
+  if(window.TamayuzCloud&&window.TamayuzCloud.wipe)await window.TamayuzCloud.wipe();
+ }catch(err){console.error(err);toast('تعذر مسح البيانات السحابية — تحقق من الاتصال ثم أعد المحاولة');return}
  try{S=DEF();IMP={};PDFROWS=[]}catch(_){}
  location.reload()},true);
 </script>
@@ -1819,6 +1957,549 @@ pdfRead=async function(file){
    if(!b)return;
    requestAnimationFrame(()=>{const m=document.getElementById(b.dataset.act);if(m)b.setAttribute('aria-expanded',String(!m.hidden))});
  },true);
+})();
+</script>
+<script>
+/* ===== Supabase: تسجيل الدخول، حفظ خطة العمل سحابيًا، وإدارة الملاحظات =====
+   ملاحظة أمنية: هذا الملف يعمل في المتصفح، لذلك يُستخدم فيه anon/publishable key
+   فقط. لا يوضع service_role أو أي مفتاح سري هنا؛ الحماية الفعلية عبر RLS. */
+(function(){
+'use strict';
+
+const LEGACY_KEY='tamayuz_plan_asmaa_v1';
+const WORKSPACE_TABLE='tamayuz_workspaces';
+const NOTES_TABLE='tamayuz_notes';
+const CLOUD={client:null,user:null,ready:false,configured:false,loading:false,sessionLoading:false,
+ saving:false,timer:null,localTimer:null,dirty:false,rev:0,suppressSave:false,warnedGuest:false,
+ notes:[],notesLoading:false,notesLoaded:false,authMode:'login',authBusy:false,
+ returnToNotes:false,configError:'',recovery:false,recoverySession:null};
+const E={};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const byId=id=>document.getElementById(id);
+function setTxt(el,t){if(el)el.textContent=t}
+function h(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function toastSafe(m){try{if(typeof toast==='function')toast(m)}catch(_){}}
+function fmtWhen(s){if(!s)return '';try{return new Intl.DateTimeFormat('ar-SA',{dateStyle:'medium',timeStyle:'short'}).format(new Date(s))}catch(_){return ''}}
+function setStatus(kind,text){if(E.cloudDot)E.cloudDot.className='dot '+(kind||'');setTxt(E.cloudTxt,text)}
+function showAuthMsg(text,kind){if(!E.authMsg)return;E.authMsg.className='cloud-msg'+(kind?' '+kind:'');E.authMsg.textContent=text||''}
+function showNoteMsg(text,kind){if(!E.noteMsg)return;E.noteMsg.className='cloud-msg'+(kind?' '+kind:'');E.noteMsg.textContent=text||''}
+function showRecoveryMsg(text,kind){if(!E.recoveryMsg)return;E.recoveryMsg.className='cloud-msg'+(kind?' '+kind:'');E.recoveryMsg.textContent=text||''}
+function errText(e){
+ const raw=String((e&&(e.message||e.error_description||e.msg))||e||'');
+ if(/relation .* does not exist|could not find the table|PGRST205|schema cache/i.test(raw))return 'جداول Supabase غير موجودة بعد. نفّذ كود SQL المرفق في SQL Editor أولًا، ثم أعد المحاولة.';
+ if(/Invalid login credentials|invalid_grant|Invalid login/i.test(raw))return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+ if(/Email not confirmed|not confirmed/i.test(raw))return 'يلزم تأكيد البريد الإلكتروني أولًا. افتح رسالة التأكيد ثم أعد تسجيل الدخول.';
+ if(/User already registered|already been registered|already registered/i.test(raw))return 'هذا البريد مسجّل مسبقًا. استخدم «تسجيل الدخول» أو «نسيت كلمة المرور».';
+ if(/Password should be at least|weak password|password.*6/i.test(raw))return 'كلمة المرور قصيرة؛ استخدم 6 أحرف على الأقل.';
+ if(/Invalid API key|apikey|JWT|Project URL/i.test(raw))return 'إعدادات Supabase غير صحيحة: تحقق من Project URL و anon public key.';
+ if(/Failed to fetch|NetworkError|fetch failed|Load failed/i.test(raw))return 'تعذر الاتصال بالإنترنت أو بخادم Supabase. تحقق من الشبكة ثم أعد المحاولة.';
+ if(/row-level security|permission denied|new row violates/i.test(raw))return 'لا تملك صلاحية لهذا الإجراء. تحقق من سياسات RLS والجدول.';
+ if(/Auth session missing|session_not_found/i.test(raw))return 'انتهت جلسة الدخول. سجّل الدخول من جديد.';
+ return raw.length>260?raw.slice(0,260)+'…':(raw||'حدث خطأ غير متوقع. حاول مرة أخرى.');
+}
+function cfg(){
+ const x=window.TAMAYUZ_SUPABASE||{};
+ return {url:String(x.url||'').trim().replace(/\/+$/,''),key:String(x.anonKey||x.publishableKey||'').trim()};
+}
+function jwtRole(key){
+ try{
+  const part=String(key||'').split('.')[1];if(!part)return '';
+  const b64=part.replace(/-/g,'+').replace(/_/g,'/');
+  const pad=b64+'='.repeat((4-b64.length%4)%4);
+  const payload=JSON.parse(atob(pad));
+  return String(payload&&payload.role||'');
+ }catch(_){return ''}
+}
+function configError(c){
+ if(!c.url||!c.key)return 'التخزين السحابي غير مفعّل بعد. أضف Project URL و anon public key في إعدادات الصفحة (window.TAMAYUZ_SUPABASE)، ثم أعد تحميل الصفحة.';
+ if(!/^https?:\/\//i.test(c.url))return 'Project URL غير صالح. استخدم رابطًا يبدأ بـ https:// (مثال: https://xxxx.supabase.co).';
+ if(/^sb_secret_/i.test(c.key)||/service_role/i.test(c.key)||jwtRole(c.key)==='service_role')return 'المفتاح الموضوع في الصفحة يبدو مفتاحًا سريًا. لا تستخدم service_role أو sb_secret في المتصفح؛ استخدم anon/publishable key فقط.';
+ return '';
+}
+function redirectUrl(){try{if(location.protocol==='file:')return undefined;return location.origin+location.pathname}catch(_){return undefined}}
+function hasWork(o){if(!o||typeof o!=='object')return false;if(o.set&&String(o.set.school||'').trim())return true;if(o.plans&&Object.keys(o.plans).length)return true;if(o.std&&Object.values(o.std).some(a=>Array.isArray(a)&&a.length))return true;return false}
+function readLegacy(){
+ /* قراءة اختيارية لمرة واحدة فقط، لنقل بيانات النسخة المحلية السابقة ثم حذفها. */
+ try{const raw=localStorage.getItem(LEGACY_KEY);if(!raw)return null;const o=JSON.parse(raw);return (o&&typeof o==='object')?o:null}catch(_){return null}
+}
+function clearLegacy(){try{localStorage.removeItem(LEGACY_KEY)}catch(_){}}
+function localPersist(showMsg){
+ try{
+  localStorage.setItem(LEGACY_KEY,JSON.stringify(S));
+  CLOUD.dirty=false;
+  setStatus('setup','محفوظ محليًا مؤقتًا — أضف إعدادات Supabase');
+  if(showMsg)toastSafe('💾 حُفظ محليًا مؤقتًا');
+  return true;
+ }catch(err){
+  console.error(err);setStatus('err','تعذر الحفظ المحلي — مساحة المتصفح ممتلئة');
+  if(showMsg)toastSafe('تعذر الحفظ المحلي: مساحة المتصفح ممتلئة');
+  return false;
+ }
+}
+function loadLocalFallback(){
+ const legacy=readLegacy();
+ if(!legacy)return;
+ try{adoptState(legacy)}catch(err){console.error('local fallback',err)}
+}
+
+function bind(){
+ ['cloudDot','cloudTxt','cloudNotesBtn','cloudAuthBtn','cloudMenuAuth','authOv','authTitle','authSetup','authAccount','authEmail','authSince','authForms','authTabLogin','authTabSignup','authForm','authEmailInput','authPass','authPass2','authConfirmWrap','authSubmitBtn','authMsg','authRecovery','recoveryForm','recoveryPass','recoveryPass2','recoveryBtn','recoveryMsg','notesOv','notesAuthNote','noteForm','noteId','noteTitle','noteBody','noteCount','noteSaveBtn','noteCancelBtn','noteMsg','notesCount','notesList','notesHint'].forEach(id=>E[id]=byId(id));
+ if(E.cloudAuthBtn){
+  document.addEventListener('click',onCloudClick,true);
+  document.addEventListener('keydown',onCloudKey,true);
+ }
+ if(E.authForm)E.authForm.addEventListener('submit',onSubmitAuth);
+ if(E.recoveryForm)E.recoveryForm.addEventListener('submit',onSubmitRecovery);
+ if(E.noteForm)E.noteForm.addEventListener('submit',onSubmitNote);
+ if(E.noteBody)E.noteBody.addEventListener('input',updateNoteCount);
+ if(E.authOv)E.authOv.addEventListener('click',e=>{if(e.target===E.authOv)closeAuth()});
+ if(E.notesOv)E.notesOv.addEventListener('click',e=>{if(e.target===E.notesOv)closeNotes()});
+ window.addEventListener('online',()=>{if(CLOUD.ready&&CLOUD.dirty)persist(false,false)});
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&CLOUD.ready&&CLOUD.dirty)persist(false,false)});
+}
+function onCloudKey(e){
+ if(e.key!=='Escape')return;
+ if(E.notesOv&&E.notesOv.classList.contains('on')){e.stopPropagation();closeNotes();return}
+ if(E.authOv&&E.authOv.classList.contains('on')){e.stopPropagation();closeAuth()}
+}
+function onCloudClick(e){
+ const el=e.target.closest('[data-cloud]');if(!el)return;
+ const act=el.dataset.cloud;
+ if(act==='auth'){e.preventDefault();openAuth();return}
+ if(act==='notes'){e.preventDefault();openNotes();return}
+ if(act==='closeAuth'){e.preventDefault();closeAuth();return}
+ if(act==='closeNotes'){e.preventDefault();closeNotes();return}
+ if(act==='authTab'){e.preventDefault();setAuthMode(el.dataset.tab==='signup'?'signup':'login');return}
+ if(act==='authForgot'){e.preventDefault();onForgotPassword();return}
+ if(act==='logout'){e.preventDefault();doLogout();return}
+ if(act==='notesRefresh'){e.preventDefault();loadNotes(true);return}
+ if(act==='noteCancel'){e.preventDefault();resetNoteForm();return}
+ if(act==='noteEdit'){e.preventDefault();editNote(el.dataset.id);return}
+ if(act==='noteDelete'){e.preventDefault();deleteNote(el.dataset.id);return}
+}
+function setAuthMode(mode){
+ CLOUD.authMode=mode==='signup'?'signup':'login';
+ const su=CLOUD.authMode==='signup';
+ if(E.authTabLogin){E.authTabLogin.classList.toggle('on',!su);E.authTabLogin.setAttribute('aria-selected',String(!su))}
+ if(E.authTabSignup){E.authTabSignup.classList.toggle('on',su);E.authTabSignup.setAttribute('aria-selected',String(su))}
+ if(E.authConfirmWrap)E.authConfirmWrap.hidden=!su;
+ if(E.authPass){E.authPass.autocomplete=su?'new-password':'current-password';E.authPass.setAttribute('autocomplete',E.authPass.autocomplete)}
+ if(E.authPass2){E.authPass2.required=su;E.authPass2.hidden=!su}
+ if(E.authSubmitBtn)E.authSubmitBtn.textContent=su?'إنشاء الحساب':'تسجيل الدخول';
+ showAuthMsg('');
+}
+function updateAuthUI(){
+ const logged=!!CLOUD.user;
+ const recovering=!!(CLOUD.recovery&&CLOUD.user);
+ if(E.cloudAuthBtn)E.cloudAuthBtn.textContent=logged?'👤 حسابي':'👤 تسجيل الدخول';
+ if(E.cloudAuthBtn)E.cloudAuthBtn.title=logged?('الحساب: '+(CLOUD.user.email||'')):'تسجيل الدخول إلى الحساب السحابي';
+ if(E.cloudMenuAuth&&E.cloudMenuAuth.lastElementChild)E.cloudMenuAuth.lastElementChild.textContent=logged?'حسابي السحابي':'تسجيل الدخول / الحساب';
+ if(E.authAccount)E.authAccount.hidden=!logged||!CLOUD.configured||recovering;
+ if(E.authForms)E.authForms.hidden=logged||!CLOUD.configured||recovering;
+ if(E.authRecovery)E.authRecovery.hidden=!recovering;
+ if(E.authSetup)E.authSetup.hidden=CLOUD.configured;
+ if(E.authTitle)E.authTitle.textContent=recovering?'تعيين كلمة مرور جديدة':(logged?'حسابي السحابي':'الحساب السحابي');
+ if(logged){
+  setTxt(E.authEmail,CLOUD.user.email||'—');
+  const last=CLOUD.user.last_sign_in_at?fmtWhen(CLOUD.user.last_sign_in_at):'';
+  setTxt(E.authSince,last?'آخر دخول: '+last:'');
+ }else{setTxt(E.authEmail,'');setTxt(E.authSince,'')}
+ if(E.notesAuthNote)E.notesAuthNote.hidden=logged;
+ if(E.noteForm)E.noteForm.hidden=!logged;
+ if(E.notesHint)E.notesHint.textContent=logged?'الملاحظات مرتبطة بحسابك فقط، ولا يمكن لمستخدم آخر قراءتها أو تعديلها بفضل سياسات RLS.':'سجّل الدخول لعرض ملاحظاتك السحابية وحفظها بأمان.';
+ updateNotesBadge();
+}
+function updateNotesBadge(){
+ const n=CLOUD.user?CLOUD.notes.length:0;
+ if(E.cloudNotesBtn)E.cloudNotesBtn.textContent='🗒️ ملاحظاتي'+(n?' ('+n+')':'');
+ if(E.notesCount)E.notesCount.textContent=String(n);
+}
+function openAuth(tab){
+ if(tab==='signup'||tab==='login')setAuthMode(tab);
+ else if(!CLOUD.user)setAuthMode(CLOUD.authMode||'login');
+ updateAuthUI();
+ if(E.authOv){E.authOv.classList.add('on');E.authOv.setAttribute('aria-hidden','false')}
+ if(E.authTitle)E.authTitle.textContent=CLOUD.recovery?'تعيين كلمة مرور جديدة':(CLOUD.user?'حسابي السحابي':'الحساب السحابي');
+ setTimeout(()=>{try{if(CLOUD.recovery)E.recoveryPass&&E.recoveryPass.focus();else if(CLOUD.user)E.cloudAuthBtn&&E.cloudAuthBtn.focus();else if(CLOUD.configured)E.authEmailInput&&E.authEmailInput.focus()}catch(_){}},60);
+}
+function closeAuth(){
+ if(E.authOv){E.authOv.classList.remove('on');E.authOv.setAttribute('aria-hidden','true')}
+ CLOUD.returnToNotes=false;showAuthMsg('');
+ if(E.authPass)E.authPass.value='';
+ if(E.authPass2)E.authPass2.value='';
+ if(E.recoveryPass)E.recoveryPass.value='';
+ if(E.recoveryPass2)E.recoveryPass2.value='';
+}
+function openNotes(){
+ if(!CLOUD.configured){openAuth();return}
+ if(!CLOUD.user){CLOUD.returnToNotes=true;openAuth('login');toastSafe('سجّل الدخول أولًا لعرض ملاحظاتك السحابية');return}
+ closeAuth();
+ if(E.notesOv){E.notesOv.classList.add('on');E.notesOv.setAttribute('aria-hidden','false')}
+ if(E.noteForm)E.noteForm.hidden=false;
+ if(E.notesAuthNote)E.notesAuthNote.hidden=true;
+ updateAuthUI();
+ if(!CLOUD.notesLoaded)loadNotes(true);else renderNotes();
+ setTimeout(()=>{try{E.noteBody&&E.noteBody.focus()}catch(_){}},60);
+}
+function closeNotes(){if(E.notesOv){E.notesOv.classList.remove('on');E.notesOv.setAttribute('aria-hidden','true')}CLOUD.returnToNotes=false;showNoteMsg('')}
+function updateNoteCount(){const n=E.noteBody?E.noteBody.value.length:0;setTxt(E.noteCount,String(n))}
+function resetNoteForm(){
+ if(E.noteId)E.noteId.value='';
+ if(E.noteTitle)E.noteTitle.value='';
+ if(E.noteBody)E.noteBody.value='';
+ if(E.noteSaveBtn){E.noteSaveBtn.textContent='إضافة الملاحظة';E.noteSaveBtn.disabled=false}
+ if(E.noteCancelBtn)E.noteCancelBtn.hidden=true;
+ updateNoteCount();showNoteMsg('');
+}
+function editNote(id){
+ const n=CLOUD.notes.find(x=>x.id===id);if(!n)return;
+ if(E.noteId)E.noteId.value=n.id;
+ if(E.noteTitle)E.noteTitle.value=n.title||'';
+ if(E.noteBody)E.noteBody.value=n.body||'';
+ if(E.noteSaveBtn)E.noteSaveBtn.textContent='تحديث الملاحظة';
+ if(E.noteCancelBtn)E.noteCancelBtn.hidden=false;
+ updateNoteCount();showNoteMsg('');
+ try{E.noteForm&&E.noteForm.scrollIntoView({behavior:'smooth',block:'start'});E.noteTitle&&E.noteTitle.focus()}catch(_){}
+}
+function renderNotes(){
+ if(!E.notesList)return;
+ updateNotesBadge();
+ if(!CLOUD.user){
+  E.notesList.innerHTML='<div class="cloud-empty">سجّل الدخول لعرض ملاحظاتك السحابية.</div>';
+  return;
+ }
+ if(CLOUD.notesLoading){E.notesList.innerHTML='<div class="cloud-empty">جارٍ تحميل الملاحظات…</div>';return}
+ if(!CLOUD.notes.length){E.notesList.innerHTML='<div class="cloud-empty">لا توجد ملاحظات بعد. أضف أول ملاحظة من الأعلى.</div>';return}
+ E.notesList.innerHTML=CLOUD.notes.map(n=>{
+  const title=n.title||'ملاحظة';
+  return '<article class="cloud-note-item" data-note="'+h(n.id)+'"><h4><span>'+h(title)+'</span><span class="cloud-badge">'+h(String((n.body||'').length))+' حرف</span></h4><div class="meta">آخر تحديث: '+h(fmtWhen(n.updated_at))+'</div><div class="body">'+h(n.body||'')+'</div><div class="acts"><button type="button" data-cloud="noteEdit" data-id="'+h(n.id)+'">✏️ تعديل</button><button type="button" class="del" data-cloud="noteDelete" data-id="'+h(n.id)+'">🗑️ حذف</button></div></article>';
+ }).join('');
+}
+async function loadNotes(force){
+ if(!CLOUD.client||!CLOUD.user){CLOUD.notes=[];CLOUD.notesLoaded=false;renderNotes();return}
+ if(CLOUD.notesLoading)return;
+ if(CLOUD.notesLoaded&&!force){renderNotes();return}
+ const uid=CLOUD.user.id;
+ CLOUD.notesLoaded=true;CLOUD.notesLoading=true;renderNotes();
+ try{
+  const {data,error}=await CLOUD.client.from(NOTES_TABLE).select('id,title,body,created_at,updated_at').eq('user_id',uid).order('updated_at',{ascending:false});
+  if(error)throw error;
+  if(!CLOUD.user||CLOUD.user.id!==uid)return;
+  CLOUD.notes=Array.isArray(data)?data:[];
+  showNoteMsg('');
+ }catch(err){
+  console.error(err);
+  if(!CLOUD.user||CLOUD.user.id!==uid)return;
+  CLOUD.notes=[];CLOUD.notesLoaded=false;showNoteMsg(errText(err),'err');
+ }finally{CLOUD.notesLoading=false;if(CLOUD.user&&CLOUD.user.id===uid)renderNotes()}
+}
+async function onSubmitNote(e){
+ e.preventDefault();
+ if(!CLOUD.client||!CLOUD.user){openAuth();toastSafe('سجّل الدخول لحفظ الملاحظة');return}
+ if(!CLOUD.ready){toastSafe('جارٍ تحميل بيانات حسابك…');return}
+ const body=E.noteBody?E.noteBody.value.trim():'';
+ if(!body){showNoteMsg('اكتب نص الملاحظة أولًا.','warn');E.noteBody&&E.noteBody.focus();return}
+ const title=(E.noteTitle&&E.noteTitle.value.trim())||'ملاحظة';
+ const id=E.noteId?E.noteId.value.trim():'';
+ if(E.noteSaveBtn)E.noteSaveBtn.disabled=true;
+ showNoteMsg('جارٍ حفظ الملاحظة…','');
+ try{
+  let q;
+  if(id)q=CLOUD.client.from(NOTES_TABLE).update({title,body}).eq('id',id).eq('user_id',CLOUD.user.id).select('id');
+  else q=CLOUD.client.from(NOTES_TABLE).insert({user_id:CLOUD.user.id,title,body}).select('id');
+  const {data,error}=await q;
+  if(error)throw error;
+  if(!data||!data.length)throw new Error('لم تُحفظ الملاحظة — تحقق من سياسات RLS');
+  resetNoteForm();await loadNotes(true);showNoteMsg('✓ حُفظت الملاحظة سحابيًا.','ok');
+ }catch(err){console.error(err);showNoteMsg(errText(err),'err')}
+ finally{if(E.noteSaveBtn)E.noteSaveBtn.disabled=false}
+}
+async function deleteNote(id){
+ if(!CLOUD.client||!CLOUD.user)return;
+ const n=CLOUD.notes.find(x=>x.id===id);
+ if(!confirm('حذف الملاحظة «'+((n&&n.title)||'ملاحظة')+'» نهائيًا؟'))return;
+ showNoteMsg('جارٍ حذف الملاحظة…','');
+ try{
+  const {error}=await CLOUD.client.from(NOTES_TABLE).delete().eq('id',id).eq('user_id',CLOUD.user.id);
+  if(error)throw error;
+  await loadNotes(true);showNoteMsg('✓ حُذفت الملاحظة.','ok');
+ }catch(err){console.error(err);showNoteMsg(errText(err),'err')}
+}
+async function onSubmitAuth(e){
+ e.preventDefault();
+ if(!CLOUD.client){openAuth();return}
+ if(CLOUD.authBusy)return;
+ const email=E.authEmailInput?E.authEmailInput.value.trim():'';
+ const pass=E.authPass?E.authPass.value:'';
+ const pass2=E.authPass2?E.authPass2.value:'';
+ if(!email||!pass){showAuthMsg('أدخل البريد الإلكتروني وكلمة المرور.','warn');return}
+ if(CLOUD.authMode==='signup'){
+  if(pass.length<6){showAuthMsg('كلمة المرور يجب ألا تقل عن 6 أحرف.','warn');return}
+  if(pass!==pass2){showAuthMsg('كلمتا المرور غير متطابقتين.','warn');return}
+ }
+ CLOUD.authBusy=true;if(E.authSubmitBtn){E.authSubmitBtn.disabled=true;E.authSubmitBtn.textContent='جارٍ…'}
+ showAuthMsg('جارٍ التحقق من الحساب…','');
+ try{
+  if(CLOUD.authMode==='login'){
+   const {data,error}=await CLOUD.client.auth.signInWithPassword({email,password:pass});
+   if(error)throw error;
+   if(data&&data.session){await handleSession(data.session);if(CLOUD.ready||CLOUD.loading)closeAuth();}
+   else showAuthMsg('لم تُنشأ جلسة دخول. تحقق من بريدك إن كان الحساب جديدًا.','warn');
+  }else{
+   const r=redirectUrl();
+   const opts=r?{emailRedirectTo:r}:undefined;
+   const {data,error}=await CLOUD.client.auth.signUp({email,password:pass,options:opts});
+   if(error)throw error;
+   if(data&&data.session){await handleSession(data.session);if(CLOUD.ready||CLOUD.loading)closeAuth();}
+   else{
+    setAuthMode('login');showAuthMsg('✓ إن كان البريد جديدًا، أُرسلت رسالة تأكيد. افتحها ثم سجّل الدخول.','ok');
+    if(E.authEmailInput)E.authEmailInput.value=email;
+   }
+  }
+ }catch(err){console.error(err);showAuthMsg(errText(err),'err')}
+ finally{CLOUD.authBusy=false;if(E.authSubmitBtn){E.authSubmitBtn.disabled=false;E.authSubmitBtn.textContent=CLOUD.authMode==='signup'?'إنشاء الحساب':'تسجيل الدخول'}}
+}
+async function onForgotPassword(){
+ if(!CLOUD.client){openAuth();return}
+ const email=E.authEmailInput?E.authEmailInput.value.trim():'';
+ if(!email){showAuthMsg('اكتب بريدك الإلكتروني أولًا، ثم اضغط «نسيت كلمة المرور».','warn');return}
+ showAuthMsg('جارٍ إرسال رابط إعادة التعيين…','');
+ try{
+  const r=redirectUrl();const opts=r?{redirectTo:r}:undefined;
+  const {error}=await CLOUD.client.auth.resetPasswordForEmail(email,opts);
+  if(error)throw error;
+  showAuthMsg('✓ أُرسل رابط إعادة تعيين كلمة المرور إلى بريدك إن كان مسجّلًا.','ok');
+ }catch(err){console.error(err);showAuthMsg(errText(err),'err')}
+}
+async function onSubmitRecovery(e){
+ e.preventDefault();
+ if(!CLOUD.client||!CLOUD.user){openAuth();return}
+ const pass=E.recoveryPass?E.recoveryPass.value:'';
+ const pass2=E.recoveryPass2?E.recoveryPass2.value:'';
+ if(pass.length<6){showRecoveryMsg('كلمة المرور يجب ألا تقل عن 6 أحرف.','warn');return}
+ if(pass!==pass2){showRecoveryMsg('كلمتا المرور غير متطابقتين.','warn');return}
+ if(E.recoveryBtn){E.recoveryBtn.disabled=true;E.recoveryBtn.textContent='جارٍ الحفظ…'}
+ showRecoveryMsg('جارٍ تحديث كلمة المرور…','');
+ try{
+  const {error}=await CLOUD.client.auth.updateUser({password:pass});
+  if(error)throw error;
+  CLOUD.recovery=false;CLOUD.recoverySession=null;
+  if(E.recoveryPass)E.recoveryPass.value='';if(E.recoveryPass2)E.recoveryPass2.value='';
+  showRecoveryMsg('✓ تم تحديث كلمة المرور بنجاح.','ok');
+  updateAuthUI();
+  try{const {data}=await CLOUD.client.auth.getSession();if(data&&data.session)await handleSession(data.session)}catch(_){}
+  closeAuth();toastSafe('✓ تم تحديث كلمة المرور');
+ }catch(err){console.error(err);showRecoveryMsg(errText(err),'err')}
+ finally{if(E.recoveryBtn){E.recoveryBtn.disabled=false;E.recoveryBtn.textContent='حفظ كلمة المرور'}}
+}
+function adoptState(data){
+ if(!data||typeof data!=='object')return;
+ CLOUD.suppressSave=true;
+ try{
+  S=Object.assign(DEF(),data);
+  S.set=Object.assign(DEF().set,data.set||{});
+  S.std=Object.assign(DEF().std,data.std||{});
+  S.act=Object.assign({},data.act||{});
+  S.plans=Object.assign({},data.plans||{});
+  S.open=Object.assign({},data.open||{});
+  S.ack=!!data.ack;S.ackName=data.ackName||'';S.ackDate=data.ackDate||'';
+  S.dom=[1,2,3,4].includes(+data.dom)?+data.dom:1;
+  try{closeModal()}catch(_){}
+  try{IMP={};PDFROWS=[]}catch(_){}
+  applyTheme();rSet();nav(TAB||'build');
+ }catch(err){console.error('adoptState',err)}
+ finally{CLOUD.suppressSave=false}
+}
+async function handleSession(session){
+ if(!session||!session.user){
+  if(!CLOUD.user)guestState();
+  return;
+ }
+ if(CLOUD.user&&CLOUD.user.id===session.user.id&&CLOUD.ready)return;
+ if(CLOUD.sessionLoading)return;
+ CLOUD.sessionLoading=true;
+ const uid=session.user.id;
+ CLOUD.user=session.user;CLOUD.ready=false;CLOUD.loading=true;CLOUD.notes=[];CLOUD.notesLoaded=false;CLOUD.notesLoading=false;updateAuthUI();
+ setStatus('load','جارٍ تحميل بياناتك السحابية…');
+ try{
+  const {data,error}=await CLOUD.client.from(WORKSPACE_TABLE).select('data,updated_at').eq('user_id',uid).maybeSingle();
+  if(error)throw error;
+  if(!CLOUD.user||CLOUD.user.id!==uid)return;
+  if(data&&data.data&&Object.keys(data.data).length){
+   if(CLOUD.dirty&&hasWork(S)){
+    const useCloud=confirm('يوجد حفظ سحابي لهذا الحساب، وتوجد تغييرات غير محفوظة في هذه الجلسة.\n\nموافق: تحميل البيانات السحابية (سيتم استبدال تغييرات الجلسة).\nإلغاء: رفع بيانات هذه الجلسة إلى السحابة فوق الحفظ القديم.');
+    if(useCloud)adoptState(data.data);
+    else{const ok=await saveWorkspace(true);if(!ok)throw new Error('تعذر رفع بيانات الجلسة إلى السحابة')}
+   }else adoptState(data.data);
+  }else{
+   const legacy=readLegacy();
+   if(legacy&&!hasWork(S))adoptState(legacy);
+   const ok=await saveWorkspace(true);
+   if(!ok)throw new Error('تعذر إنشاء حفظ سحابي لهذا الحساب');
+  }
+  CLOUD.ready=true;CLOUD.loading=false;CLOUD.dirty=false;CLOUD.rev=0;
+  /* بعد نجاح تحميل/إنشاء الحساب لم تعد نسخة المتصفح القديمة لازمة. */
+  clearLegacy();
+  updateAuthUI();setStatus('ok','محفوظ سحابيًا');
+  await loadNotes(true);
+  if(CLOUD.returnToNotes){CLOUD.returnToNotes=false;openNotes()}
+  toastSafe('✓ تم الاتصال بحسابك السحابي');
+ }catch(err){
+  console.error(err);CLOUD.loading=false;CLOUD.ready=false;
+  setStatus('err','تعذر تحميل البيانات السحابية');
+  showAuthMsg(errText(err),'err');
+  toastSafe('تعذر تحميل البيانات السحابية: '+errText(err));
+ }finally{CLOUD.sessionLoading=false}
+}
+function guestState(){
+ CLOUD.user=null;CLOUD.ready=false;CLOUD.loading=false;CLOUD.notes=[];CLOUD.notesLoaded=false;CLOUD.notesLoading=false;
+ CLOUD.recovery=false;CLOUD.recoverySession=null;
+ updateAuthUI();
+ if(CLOUD.configured)setStatus('warn','وضع الزائر — سجّل الدخول لحفظ خطتك وملاحظاتك');
+ else setStatus('setup','وضع محلي مؤقت — أضف إعدادات Supabase لتفعيل الحساب');
+}
+async function doLogout(){
+ if(!CLOUD.client||!CLOUD.user){closeAuth();return}
+ if(!confirm('تسجيل الخروج من الحساب السحابي؟ تأكد من حفظ أي تغييرات تريدها.'))return;
+ if(CLOUD.ready&&CLOUD.dirty){try{await persist(false,false)}catch(_){}}
+ try{await CLOUD.client.auth.signOut()}catch(err){try{await CLOUD.client.auth.signOut({scope:'local'})}catch(_){}}
+ CLOUD.user=null;CLOUD.ready=false;CLOUD.loading=false;CLOUD.dirty=false;CLOUD.notes=[];CLOUD.notesLoaded=false;CLOUD.notesLoading=false;
+ clearTimeout(CLOUD.timer);CLOUD.timer=null;
+ CLOUD.recovery=false;CLOUD.recoverySession=null;CLOUD.sessionLoading=false;
+ updateAuthUI();closeNotes();closeAuth();
+ CLOUD.suppressSave=true;
+ try{S=DEF();applyTheme();rSet();nav('build')}catch(err){console.error(err)}
+ finally{CLOUD.suppressSave=false}
+ setStatus(CLOUD.configured?'warn':'setup',CLOUD.configured?'وضع الزائر — سجّل الدخول لحفظ خطتك وملاحظاتك':'وضع محلي مؤقت — أضف إعدادات Supabase لتفعيل الحساب');
+ toastSafe('تم تسجيل الخروج');
+}
+function queueSave(){
+ if(CLOUD.suppressSave)return;
+ if(!CLOUD.configured){
+  CLOUD.dirty=true;
+  clearTimeout(CLOUD.localTimer);
+  CLOUD.localTimer=setTimeout(()=>{CLOUD.localTimer=null;localPersist(false)},250);
+  return;
+ }
+ if(!CLOUD.user){
+  if(CLOUD.configured){CLOUD.dirty=true;setStatus('warn','تغييرات غير محفوظة — سجّل الدخول للحفظ السحابي');if(!CLOUD.warnedGuest){CLOUD.warnedGuest=true;toastSafe('💡 سجّل الدخول من الشريط العلوي لحفظ خطتك سحابيًا')}}
+  return;
+ }
+ if(!CLOUD.ready){CLOUD.dirty=true;return}
+ CLOUD.dirty=true;CLOUD.rev++;setStatus('warn','تغييرات غير محفوظة…');
+ clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(()=>{CLOUD.timer=null;persist(false,false)},700);
+}
+async function persist(force,showMsg){
+ if(!CLOUD.client||!CLOUD.user)return false;
+ if(!force&&!CLOUD.ready)return false;
+ if(CLOUD.saving){CLOUD.dirty=true;return false}
+ clearTimeout(CLOUD.timer);CLOUD.timer=null;CLOUD.saving=true;
+ CLOUD.rev++;const rev=CLOUD.rev;setStatus('load','جارٍ الحفظ السحابي…');
+ try{
+  const {error}=await CLOUD.client.from(WORKSPACE_TABLE).upsert({user_id:CLOUD.user.id,data:S},{onConflict:'user_id'});
+  if(error)throw error;
+  if(CLOUD.rev===rev){CLOUD.dirty=false;setStatus('ok','محفوظ سحابيًا')}
+  else{CLOUD.dirty=true;setStatus('warn','تغييرات غير محفوظة…');if(!CLOUD.timer)CLOUD.timer=setTimeout(()=>{CLOUD.timer=null;persist(false,false)},300)}
+  if(showMsg)toastSafe('✓ حُفظت بياناتك سحابيًا');
+  return true;
+ }catch(err){
+  console.error(err);CLOUD.dirty=true;setStatus('err','تعذر الحفظ — '+errText(err));
+  if(showMsg)toastSafe('تعذر الحفظ: '+errText(err));
+  return false;
+ }finally{CLOUD.saving=false}
+}
+async function saveWorkspace(force){
+ if(!CLOUD.client||!CLOUD.user)return false;
+ return persist(Boolean(force),false);
+}
+async function saveNow(){
+ if(!CLOUD.configured){localPersist(true);return}
+ if(!CLOUD.user){openAuth();toastSafe('سجّل الدخول لحفظ بياناتك سحابيًا');return}
+ if(!CLOUD.ready){toastSafe('جارٍ تحميل بيانات حسابك…');return}
+ CLOUD.dirty=true;CLOUD.rev++;
+ await persist(true,true);
+}
+async function wipe(){
+ clearTimeout(CLOUD.timer);CLOUD.timer=null;
+ clearTimeout(CLOUD.localTimer);CLOUD.localTimer=null;
+ if(CLOUD.client&&CLOUD.user){
+  const uid=CLOUD.user.id;
+  const n=await CLOUD.client.from(NOTES_TABLE).delete().eq('user_id',uid);
+  if(n.error)throw n.error;
+  const w=await CLOUD.client.from(WORKSPACE_TABLE).delete().eq('user_id',uid);
+  if(w.error)throw w.error;
+ }
+ CLOUD.notes=[];CLOUD.notesLoaded=false;CLOUD.notesLoading=false;CLOUD.dirty=false;updateNotesBadge();clearLegacy();
+}
+async function waitForSupabase(ms){
+ const until=Date.now()+ms;
+ while(Date.now()<until){if(window.supabase&&typeof window.supabase.createClient==='function')return true;await sleep(150)}
+ return !!(window.supabase&&typeof window.supabase.createClient==='function');
+}
+async function init(){
+ bind();
+ setStatus('load','جارٍ تهيئة التخزين السحابي…');
+ const c=cfg();CLOUD.configError=configError(c);
+ if(CLOUD.configError){
+  CLOUD.configured=false;
+  if(E.authSetup){E.authSetup.textContent=CLOUD.configError;E.authSetup.hidden=false}
+  loadLocalFallback();
+  updateAuthUI();setStatus('setup','وضع محلي مؤقت — أضف إعدادات Supabase لتفعيل الحساب');
+  return;
+ }
+ const libOk=await waitForSupabase(9000);
+ if(!libOk){
+  CLOUD.configured=false;CLOUD.configError='تعذر تحميل مكتبة Supabase من الشبكة. تحقق من الاتصال ثم أعد تحميل الصفحة.';
+  if(E.authSetup){E.authSetup.textContent=CLOUD.configError;E.authSetup.hidden=false}
+  loadLocalFallback();
+  updateAuthUI();setStatus('setup','تعذر تحميل مكتبة Supabase — تحقق من الاتصال');return;
+ }
+ try{
+  CLOUD.client=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  CLOUD.configured=true;
+ }catch(err){
+  console.error(err);CLOUD.configured=false;CLOUD.configError=errText(err);
+  if(E.authSetup){E.authSetup.textContent=CLOUD.configError;E.authSetup.hidden=false}
+  loadLocalFallback();
+  updateAuthUI();setStatus('setup','تعذر تهيئة Supabase — راجع الإعدادات');return;
+ }
+ CLOUD.client.auth.onAuthStateChange((event,session)=>{
+  if(event==='SIGNED_OUT'){setTimeout(()=>{if(CLOUD.user)doLogoutLocal()},0);return}
+  if(event==='PASSWORD_RECOVERY'){
+   setTimeout(()=>{CLOUD.recovery=true;CLOUD.recoverySession=session||null;if(session&&session.user)CLOUD.user=session.user;showRecoveryMsg('');updateAuthUI();openAuth();},0);
+   return;
+  }
+  if(session&&event!=='TOKEN_REFRESHED')setTimeout(()=>{handleSession(session)},0);
+ });
+ updateAuthUI();
+ try{
+  const {data,error}=await CLOUD.client.auth.getSession();
+  if(error)throw error;
+  if(data&&data.session)await handleSession(data.session);
+  else guestState();
+ }catch(err){
+  console.error(err);setStatus('err','تعذر قراءة جلسة الدخول');
+  showAuthMsg(errText(err),'err');guestState();
+ }
+}
+function doLogoutLocal(){
+ CLOUD.user=null;CLOUD.ready=false;CLOUD.loading=false;CLOUD.dirty=false;CLOUD.notes=[];CLOUD.notesLoaded=false;CLOUD.notesLoading=false;
+ clearTimeout(CLOUD.timer);CLOUD.timer=null;
+ CLOUD.recovery=false;CLOUD.recoverySession=null;CLOUD.sessionLoading=false;
+ updateAuthUI();closeNotes();closeAuth();
+ CLOUD.suppressSave=true;
+ try{S=DEF();applyTheme();rSet();nav('build')}catch(err){console.error(err)}
+ finally{CLOUD.suppressSave=false}
+ setStatus(CLOUD.configured?'warn':'setup',CLOUD.configured?'وضع الزائر — سجّل الدخول لحفظ خطتك وملاحظاتك':'وضع محلي مؤقت — أضف إعدادات Supabase لتفعيل الحساب');
+}
+window.TamayuzCloud={
+ queueSave,saveNow,persist,openAuth,openNotes,wipe,
+ flush:(show)=>persist(false,!!show),
+ get user(){return CLOUD.user},
+ get ready(){return CLOUD.ready},
+ get configured(){return CLOUD.configured}
+};
+init();
 })();
 </script>
 </body>

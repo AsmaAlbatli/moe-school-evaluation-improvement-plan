@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08243f">
+<title>منصة الملاحظات والمتابعة — لوحة المتابعة والإجراءات التصحيحية</title>
+<meta name="description" content="منصة عربية لإدارة الملاحظات والمتابعة: تصنيف حسب المجال والأولوية، توصيات وإجراءات تصحيحية، مسؤول وتاريخ استهداف، ولوحة مؤشرات مع مزامنة سحابية عبر Supabase.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2308243f'/%3E%3Cpath d='M22 18h20v6H22z' fill='%2322d3ee'/%3E%3Cpath d='M19 21h-2a4 4 0 0 0-4 4v24a4 4 0 0 0 4 4h30a4 4 0 0 0 4-4V25a4 4 0 0 0-4-4h-2' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='m24 38 5 5 11-12' fill='none' stroke='%2322d3ee' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<!-- ===================== أيقونات SVG ===================== -->
+<svg xmlns="http://www.w3.org/2000/svg" class="svg-sprite" aria-hidden="true">
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><path d="M9 4h6v3H9z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16M7 12h10M10 19h4"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4 0 7-2.7 7-6.5 0-3.2-2.2-5.4-3.8-7.3C13.9 6.6 13 5.1 13 3c-2.4 1.3-4 3.7-4 6.2 0 1.3.4 2.3 1 3.1-1.6-.3-2.7-1.4-3.4-2.6C5.2 11.3 5 12.9 5 14.5 5 19.3 8 22 12 22Z"/><path d="M12 22c1.8 0 3-1.3 3-3 0-1.5-.9-2.5-1.6-3.3-.6-.7-1.1-1.4-1.4-2.4-1.1.7-1.8 1.9-1.8 3.1 0 .6.2 1.1.4 1.5-.7-.1-1.2-.5-1.6-1-.3.5-.5 1.1-.5 1.8 0 1.9 1.5 3.3 3.5 3.3Z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></symbol>
+  <symbol id="i-notes" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="m3 3 18 18M10.6 5.2A11 11 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-2.1 3.2M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a10.8 10.8 0 0 0 5.4-1.4"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"/><path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.2 9.5 4.5 4.5 0 0 0 7 19Z"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V6Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M14 9l3 3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 3h7v7M10 14 21 3M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+</svg>
+
+<!-- ===================== شاشة التحميل ===================== -->
+<div id="boot-overlay" class="boot-overlay" aria-live="polite">
+  <div class="boot-mark"><svg class="ico"><use href="#i-clipboard"></use></svg></div>
+  <div class="boot-spinner"></div>
+  <p>جارٍ تحميل منصة الملاحظات…</p>
+</div>
+
+<!-- ===================== الشريط العلوي ===================== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="../index.html" title="العودة إلى صفحة المنصات">
+      <span class="brand-mark"><svg class="ico"><use href="#i-clipboard"></use></svg></span>
+      <span class="brand-text">
+        <strong>منصة الملاحظات والمتابعة</strong>
+        <small>Notes &amp; Follow-up Platform</small>
+      </span>
+    </a>
+    <div class="topbar-actions">
+      <span id="mode-badge" class="mode-badge hidden"><svg class="ico"><use href="#i-cloud"></use></svg><span>سحابي</span></span>
+      <span id="live-status" class="live-status hidden" title="حالة المزامنة"><span class="live-dot"></span><span id="live-text">غير متصل</span></span>
+      <button type="button" id="btn-refresh" class="icon-btn hidden" title="تحديث البيانات" aria-label="تحديث البيانات">
+        <svg class="ico"><use href="#i-refresh"></use></svg>
+      </button>
+      <div id="user-box" class="user-box hidden">
+        <span id="user-avatar" class="avatar">؟</span>
+        <span class="user-meta"><strong id="user-name">—</strong><small id="user-email">—</small></span>
+        <button type="button" id="btn-logout" class="btn btn-ghost btn-sm" title="تسجيل الخروج" aria-label="تسجيل الخروج"><svg class="ico"><use href="#i-logout"></use></svg><span>خروج</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== شاشة الإعداد ===================== -->
+<main id="setup-screen" class="screen container hidden">
+  <section class="setup-card">
+    <div class="setup-icon"><svg class="ico"><use href="#i-database"></use></svg></div>
+    <span class="eyebrow">إعداد المنصة</span>
+    <h1>أكمل ربط المنصة بـ Supabase</h1>
+    <p class="setup-lead">تحتاج المنصة إلى مشروع Supabase واحد لتخزين الملاحظات ومزامنتها بين أعضاء الفريق. الإعداد يستغرق دقائق قليلة.</p>
+    <div id="setup-reason" class="notice notice-warn" role="status"></div>
+
+    <div class="setup-steps">
+      <div class="setup-step">
+        <span class="step-num">1</span>
+        <div><h2>أنشئ مشروع Supabase</h2><p>من لوحة التحكم، أنشئ مشروعًا جديدًا ثم افتح <b>SQL Editor</b>.</p></div>
+      </div>
+      <div class="setup-step">
+        <span class="step-num">2</span>
+        <div><h2>نفّذ مخطط قاعدة البيانات</h2><p>الصق محتوى الملف <code>notes-platform/supabase/schema.sql</code> كاملًا ثم اضغط <b>Run</b>.</p></div>
+      </div>
+      <div class="setup-step">
+        <span class="step-num">3</span>
+        <div><h2>أضف الإعدادات العامة</h2><p>افتح الملف <code>notes-platform/assets/js/supabase-config.js</code> وأضف <b>Project URL</b> و<b>anon / publishable key</b>.</p></div>
+      </div>
+      <div class="setup-step">
+        <span class="step-num">4</span>
+        <div><h2>أنشئ حسابات الفريق</h2><p>سجّل حسابًا لكل عضو، ثم أوقف التسجيل العام من إعدادات Supabase Auth بعد الانتهاء.</p></div>
+      </div>
+    </div>
+
+    <div class="code-box" dir="ltr"><span>window.NOTES_SUPABASE = {</span><span>  url: "https://YOUR-PROJECT.supabase.co",</span><span>  anonKey: "YOUR_PUBLIC_ANON_OR_PUBLISHABLE_KEY",</span><span>  allowSignup: true</span><span>};</span></div>
+
+    <div class="notice notice-secure"><svg class="ico"><use href="#i-shield"></use></svg><div><strong>تنبيه أمني:</strong> استخدم فقط مفتاح <b>anon / publishable</b> العام. لا تضع أبدًا مفتاح <b>service_role</b> أو أي مفتاح سري في ملفات المتصفح. الحماية الفعلية تأتي من سياسات RLS المضمنة في المخطط.</div></div>
+
+    <div class="setup-actions">
+      <button type="button" id="btn-setup-demo" class="btn btn-primary"><svg class="ico"><use href="#i-play"></use></svg> تجربة الواجهة ببيانات تجريبية</button>
+      <button type="button" id="btn-setup-retry" class="btn btn-ghost"><svg class="ico"><use href="#i-refresh"></use></svg> إعادة التحقق</button>
+      <a class="btn btn-ghost" href="https://supabase.com/dashboard" target="_blank" rel="noopener"><svg class="ico"><use href="#i-external"></use></svg> لوحة Supabase</a>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== شاشة الدخول ===================== -->
+<main id="auth-screen" class="screen container hidden">
+  <div class="auth-grid">
+    <section class="auth-hero">
+      <span class="eyebrow eyebrow-light">مساحة عمل الفريق</span>
+      <h1>اجمع الملاحظات، حدّد المسؤول، وتابع الإغلاق في مكان واحد.</h1>
+      <p>منصة متابعة عربية تربط كل ملاحظة بتوصية وإجراء تصحيحي ومسؤول وتاريخ استهداف، مع لوحة مؤشرات تُحدَّث فورًا بعد كل إضافة أو تعديل.</p>
+      <ul class="feature-list">
+        <li><span class="feature-ico"><svg class="ico"><use href="#i-chart"></use></svg></span><div><strong>لوحة مؤشرات فورية</strong><span>إجمالي الملاحظات، الجديدة، قيد المعالجة، والمغلقة.</span></div></li>
+        <li><span class="feature-ico"><svg class="ico"><use href="#i-filter"></use></svg></span><div><strong>تصفية دقيقة</strong><span>حسب الحالة، الأولوية، المجال، المسؤول، والاستحقاق.</span></div></li>
+        <li><span class="feature-ico"><svg class="ico"><use href="#i-spark"></use></svg></span><div><strong>توصيات وإجراءات تصحيحية</strong><span>لكل ملاحظة توصية وإجراء، مع تنبيهات للمتأخرات.</span></div></li>
+        <li><span class="feature-ico"><svg class="ico"><use href="#i-cloud"></use></svg></span><div><strong>مزامنة سحابية آمنة</strong><span>Supabase مع حماية RLS لحسابات الفريق المسجّلة.</span></div></li>
+      </ul>
+      <div class="auth-hero-note"><svg class="ico"><use href="#i-lock"></use></svg> الوصول محصور بالمستخدمين المسجّلين في مشروعك.</div>
+    </section>
+
+    <section class="auth-card">
+      <div class="auth-tabs" role="tablist" aria-label="الدخول أو إنشاء حساب">
+        <button type="button" class="auth-tab active" data-auth-tab="login" role="tab" aria-selected="true">تسجيل الدخول</button>
+        <button type="button" class="auth-tab" data-auth-tab="signup" id="signup-tab" role="tab" aria-selected="false">حساب جديد</button>
+      </div>
+
+      <div class="auth-head">
+        <h2 id="auth-title">مرحبًا بعودتك</h2>
+        <p id="auth-subtitle">سجّل الدخول للوصول إلى ملاحظات فريقك.</p>
+      </div>
+
+      <form id="auth-form" novalidate>
+        <div id="signup-name-field" class="field hidden">
+          <label for="auth-fullname">الاسم الكامل</label>
+          <div class="input-icon-wrap"><svg class="ico"><use href="#i-user"></use></svg><input id="auth-fullname" type="text" autocomplete="name" maxlength="120" placeholder="مثال: سارة العتيبي"></div>
+        </div>
+
+        <div class="field">
+          <label for="auth-email">البريد الإلكتروني</label>
+          <div class="input-icon-wrap"><svg class="ico"><use href="#i-mail"></use></svg><input id="auth-email" type="email" autocomplete="email" placeholder="name@school.edu.sa" required></div>
+        </div>
+
+        <div class="field">
+          <label for="auth-password">كلمة المرور</label>
+          <div class="input-icon-wrap"><svg class="ico"><use href="#i-key"></use></svg><input id="auth-password" type="password" autocomplete="current-password" placeholder="٦ أحرف على الأقل" minlength="6" required><button type="button" id="toggle-password" class="input-action" aria-label="إظهار كلمة المرور" title="إظهار كلمة المرور"><svg class="ico"><use href="#i-eye"></use></svg></button></div>
+        </div>
+
+        <div id="signup-confirm-field" class="field hidden">
+          <label for="auth-confirm">تأكيد كلمة المرور</label>
+          <div class="input-icon-wrap"><svg class="ico"><use href="#i-lock"></use></svg><input id="auth-confirm" type="password" autocomplete="new-password" placeholder="أعد كتابة كلمة المرور"></div>
+        </div>
+
+        <div id="auth-msg" class="form-msg" role="alert" aria-live="polite"></div>
+
+        <button type="submit" id="auth-submit" class="btn btn-primary btn-block"><span>دخول إلى المنصة</span></button>
+      </form>
+
+      <div class="auth-divider"><span>أو</span></div>
+      <button type="button" id="btn-auth-demo" class="btn btn-ghost btn-block"><svg class="ico"><use href="#i-play"></use></svg> تجربة سريعة بدون حساب</button>
+      <p class="auth-foot">بالمتابعة، أنت توافق على استخدام بياناتك داخل نطاق فريقك فقط. لا تُرسل كلمة المرور إلى أي جهة خارج Supabase.</p>
+    </section>
+  </div>
+</main>
+
+<!-- ===================== التطبيق ===================== -->
+<main id="main-screen" class="screen container hidden">
+  <div id="demo-banner" class="demo-banner hidden" role="status">
+    <span class="demo-icon"><svg class="ico"><use href="#i-info"></use></svg></span>
+    <div><strong>وضع المعاينة التجريبية</strong><span>التغييرات تُحفظ في الذاكرة فقط وتختفي عند تحديث الصفحة. لا يتم الاتصال بـ Supabase.</span></div>
+    <button type="button" id="btn-exit-demo" class="btn btn-sm btn-ghost">إنهاء المعاينة</button>
+  </div>
+
+  <section class="page-head">
+    <div>
+      <span class="eyebrow">لوحة المتابعة</span>
+      <h1>مرحبًا، <span id="greet-name">—</span></h1>
+      <p>تابع ملاحظات الفريق، وأضف التوصيات والإجراءات التصحيحية، وحدّد المسؤول وتاريخ الاستهداف.</p>
+    </div>
+    <div class="page-head-actions">
+      <button type="button" id="btn-new-note" class="btn btn-primary btn-lg"><svg class="ico"><use href="#i-plus"></use></svg> ملاحظة جديدة</button>
+    </div>
+  </section>
+
+  <section class="stats-grid" id="stats-grid" aria-label="مؤشرات الملاحظات">
+    <button type="button" class="stat-card stat-total" data-status-filter="all">
+      <span class="stat-icon"><svg class="ico"><use href="#i-notes"></use></svg></span>
+      <span class="stat-body"><span class="stat-label">إجمالي الملاحظات</span><strong class="stat-value" id="stat-total">0</strong><span class="stat-sub" id="stat-total-sub">0% من الإجمالي</span></span>
+      <span class="stat-bar"><span id="stat-total-bar"></span></span>
+    </button>
+    <button type="button" class="stat-card stat-new" data-status-filter="جديدة">
+      <span class="stat-icon"><svg class="ico"><use href="#i-spark"></use></svg></span>
+      <span class="stat-body"><span class="stat-label">جديدة</span><strong class="stat-value" id="stat-new">0</strong><span class="stat-sub" id="stat-new-sub">0% من الإجمالي</span></span>
+      <span class="stat-bar"><span id="stat-new-bar"></span></span>
+    </button>
+    <button type="button" class="stat-card stat-progress" data-status-filter="قيد المعالجة">
+      <span class="stat-icon"><svg class="ico"><use href="#i-clock"></use></svg></span>
+      <span class="stat-body"><span class="stat-label">قيد المعالجة</span><strong class="stat-value" id="stat-progress">0</strong><span class="stat-sub" id="stat-progress-sub">0% من الإجمالي</span></span>
+      <span class="stat-bar"><span id="stat-progress-bar"></span></span>
+    </button>
+    <button type="button" class="stat-card stat-closed" data-status-filter="مغلقة">
+      <span class="stat-icon"><svg class="ico"><use href="#i-check"></use></svg></span>
+      <span class="stat-body"><span class="stat-label">مغلقة</span><strong class="stat-value" id="stat-closed">0</strong><span class="stat-sub" id="stat-closed-sub">0% من الإجمالي</span></span>
+      <span class="stat-bar"><span id="stat-closed-bar"></span></span>
+    </button>
+  </section>
+
+  <div class="content-grid">
+    <div class="main-col">
+
+      <!-- نموذج الإضافة والتعديل -->
+      <section id="form-card" class="card form-card hidden" aria-labelledby="form-title">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">إضافة / تعديل</span>
+            <h2 id="form-title">ملاحظة جديدة</h2>
+            <p id="form-subtitle">سجّل الملاحظة مع التوصية والإجراء التصحيحي والمسؤول.</p>
+          </div>
+          <button type="button" id="btn-close-form" class="icon-btn" title="إغلاق النموذج" aria-label="إغلاق النموذج"><svg class="ico"><use href="#i-close"></use></svg></button>
+        </div>
+        <div class="card-body">
+          <div id="edit-meta" class="edit-meta hidden"></div>
+          <form id="note-form" novalidate>
+            <div class="form-grid">
+              <div class="field field-full">
+                <label for="note-title">عنوان الملاحظة <span class="req">*</span></label>
+                <input id="note-title" type="text" maxlength="160" placeholder="مثال: تأخر تسليم خطة التحصيل الدراسي" required>
+                <div class="field-foot"><span class="hint">عنوان واضح ومختصر</span><span class="counter" id="title-counter">0 / 160</span></div>
+              </div>
+
+              <div class="field">
+                <label for="note-domain">المجال <span class="req">*</span></label>
+                <select id="note-domain" required></select>
+              </div>
+              <div class="field">
+                <label for="note-priority">الأولوية <span class="req">*</span></label>
+                <select id="note-priority" required></select>
+              </div>
+              <div class="field">
+                <label for="note-status">الحالة <span class="req">*</span></label>
+                <select id="note-status" required></select>
+              </div>
+
+              <div class="field field-full">
+                <label for="note-description">وصف الملاحظة <span class="req">*</span></label>
+                <textarea id="note-description" rows="4" maxlength="5000" placeholder="اشرح الملاحظة والملابسات والنتيجة المرجوة…" required></textarea>
+                <div class="field-foot"><span class="hint">كن محددًا في الوصف لتسهيل المتابعة</span><span class="counter" id="desc-counter">0 / 5000</span></div>
+              </div>
+
+              <div class="field">
+                <label for="note-recommendation">التوصية</label>
+                <textarea id="note-recommendation" rows="3" maxlength="4000" placeholder="ما الذي يُقترح فعله لمعالجة الملاحظة؟"></textarea>
+              </div>
+              <div class="field">
+                <label for="note-corrective">الإجراء التصحيحي</label>
+                <textarea id="note-corrective" rows="3" maxlength="4000" placeholder="الخطوة التنفيذية المحددة التي ستُتخذ."></textarea>
+              </div>
+
+              <div class="field">
+                <label for="note-owner">المسؤول عن المتابعة</label>
+                <div class="input-icon-wrap"><svg class="ico"><use href="#i-user"></use></svg><input id="note-owner" type="text" maxlength="120" placeholder="اسم المسؤول"></div>
+              </div>
+              <div class="field">
+                <label for="note-target">التاريخ المستهدف</label>
+                <div class="input-icon-wrap"><svg class="ico"><use href="#i-calendar"></use></svg><input id="note-target" type="date"></div>
+              </div>
+            </div>
+
+            <div id="form-error" class="form-msg" role="alert" aria-live="polite"></div>
+
+            <div class="form-actions">
+              <button type="submit" id="btn-save-note" class="btn btn-primary"><svg class="ico"><use href="#i-check"></use></svg><span>حفظ الملاحظة</span></button>
+              <button type="button" id="btn-cancel-edit" class="btn btn-ghost hidden">إلغاء التعديل</button>
+              <span class="form-note"><svg class="ico"><use href="#i-info"></use></svg> تُسجَّل تواريخ الإنشاء والتحديث تلقائيًا.</span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- الفلاتر -->
+      <section class="card filters-card" aria-labelledby="filters-title">
+        <div class="card-head card-head-compact">
+          <div><span class="eyebrow">بحث وتصفية</span><h2 id="filters-title">ابحث في سجل الملاحظات</h2></div>
+          <button type="button" id="btn-reset-filters" class="btn btn-ghost btn-sm"><svg class="ico"><use href="#i-refresh"></use></svg> إعادة تعيين</button>
+        </div>
+        <div class="card-body">
+          <div class="search-field">
+            <svg class="ico"><use href="#i-search"></use></svg>
+            <input id="filter-q" type="search" placeholder="ابحث في العنوان، الوصف، التوصية، الإجراء، أو المسؤول…" aria-label="بحث في الملاحظات">
+            <button type="button" id="btn-clear-search" class="input-action hidden" aria-label="مسح البحث"><svg class="ico"><use href="#i-close"></use></svg></button>
+          </div>
+          <div class="filters-grid">
+            <div class="field"><label for="filter-status">الحالة</label><select id="filter-status"></select></div>
+            <div class="field"><label for="filter-priority">الأولوية</label><select id="filter-priority"></select></div>
+            <div class="field"><label for="filter-domain">المجال</label><select id="filter-domain"></select></div>
+            <div class="field"><label for="filter-owner">المسؤول</label><select id="filter-owner"></select></div>
+            <div class="field"><label for="filter-due">الاستحقاق</label><select id="filter-due"></select></div>
+            <div class="field"><label for="filter-missing">نواقص المتابعة</label><select id="filter-missing"></select></div>
+            <div class="field"><label for="filter-from">من تاريخ الإنشاء</label><input id="filter-from" type="date"></div>
+            <div class="field"><label for="filter-to">إلى تاريخ الإنشاء</label><input id="filter-to" type="date"></div>
+            <div class="field"><label for="filter-sort">الترتيب</label><select id="filter-sort"></select></div>
+          </div>
+          <div class="filter-summary"><svg class="ico"><use href="#i-filter"></use></svg><span id="filter-summary">جميع الملاحظات</span><button type="button" id="btn-clear-filters-inline" class="link-btn hidden">مسح الفلاتر</button></div>
+        </div>
+      </section>
+
+      <!-- سجل الملاحظات -->
+      <section class="card notes-card" aria-labelledby="notes-title">
+        <div class="card-head card-head-compact">
+          <div>
+            <span class="eyebrow">السجل</span>
+            <h2 id="notes-title">الملاحظات</h2>
+            <p id="notes-subtitle">جارٍ تحميل الملاحظات…</p>
+          </div>
+          <div class="notes-head-actions">
+            <span id="notes-count" class="count-pill">0</span>
+            <button type="button" id="btn-refresh-notes" class="icon-btn" title="تحديث السجل" aria-label="تحديث السجل"><svg class="ico"><use href="#i-refresh"></use></svg></button>
+          </div>
+        </div>
+        <div id="notes-list" class="notes-list" aria-live="polite"></div>
+      </section>
+    </div>
+
+    <!-- العمود الجانبي -->
+    <aside class="side-col">
+      <section class="card side-card reco-card" aria-labelledby="reco-title">
+        <div class="side-head">
+          <span class="side-icon side-icon-cyan"><svg class="ico"><use href="#i-spark"></use></svg></span>
+          <div><h2 id="reco-title">توصيات المتابعة</h2><p>مبنية على بيانات الملاحظات الحالية</p></div>
+        </div>
+        <div id="recommendations" class="reco-list"></div>
+      </section>
+
+      <section class="card side-card activity-card" aria-labelledby="activity-title">
+        <div class="side-head">
+          <span class="side-icon side-icon-navy"><svg class="ico"><use href="#i-clock"></use></svg></span>
+          <div><h2 id="activity-title">آخر التحديثات</h2><p>أحدث الملاحظات نشاطًا</p></div>
+        </div>
+        <div id="activity-list" class="activity-list"></div>
+      </section>
+
+      <section class="card side-card guide-card">
+        <div class="side-head">
+          <span class="side-icon side-icon-soft"><svg class="ico"><use href="#i-info"></use></svg></span>
+          <div><h2>دليل سريع</h2><p>كيف تستخدم المنصة بفاعلية</p></div>
+        </div>
+        <ol class="quick-guide">
+          <li><span>1</span><p>أضف الملاحظة وحدّد المجال والأولوية.</p></li>
+          <li><span>2</span><p>سجّل توصية وإجراءً تصحيحيًا واضحًا.</p></li>
+          <li><span>3</span><p>عيّن مسؤولًا وتاريخًا مستهدفًا للمتابعة.</p></li>
+          <li><span>4</span><p>أغلق الملاحظة بعد التحقق من تنفيذ الإجراء.</p></li>
+        </ol>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<!-- ===================== التذييل ===================== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div><strong>منصة الملاحظات والمتابعة</strong><span>إدارة الملاحظات والإجراءات التصحيحية للفريق.</span></div>
+    <div class="footer-links">
+      <span id="footer-mode">—</span>
+      <span class="footer-sep">·</span>
+      <a href="../index.html">العودة إلى المنصات</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== نافذة تأكيد الحذف ===================== -->
+<div id="delete-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+  <div class="modal">
+    <div class="modal-icon"><svg class="ico"><use href="#i-trash"></use></svg></div>
+    <h2 id="delete-modal-title">حذف الملاحظة؟</h2>
+    <p>سيتم حذف «<strong id="delete-note-title">—</strong>» نهائيًا. لا يمكن التراجع عن هذا الإجراء.</p>
+    <div id="delete-modal-msg" class="form-msg" role="alert"></div>
+    <div class="modal-actions">
+      <button type="button" id="btn-confirm-delete" class="btn btn-danger"><svg class="ico"><use href="#i-trash"></use></svg><span>نعم، احذف</span></button>
+      <button type="button" id="btn-cancel-delete" class="btn btn-ghost">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-host" class="toast-host" aria-live="polite" aria-atomic="false"></div>
+
+<!-- مكتبة Supabase أولًا، ثم الإعدادات العامة، ثم منطق التطبيق -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

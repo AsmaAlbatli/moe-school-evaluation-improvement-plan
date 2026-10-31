@@ -1,0 +1,6 @@
+# إعدادات محلية لا تُرفع إلى Git
+assets/js/supabase-config.local.js
+supabase/.env
+.env
+.env.*
+!.env.example

@@ -15,13 +15,18 @@
 |---|---|---|
 | **منصة خطة تحسين نتائج التقويم المدرسي** | [فتح المنصة](index.html) | ترتيب المؤشرات من الأدنى إلى الأعلى وتوليد خطة تحسين جاهزة للطباعة. |
 | **منصة تفريغ خطة التحسين في منصة تميز** | [فتح المنصة](tamayuz-plan-platform/index.html) | تفريغ خطة التحسين وفق منصة تميز الرقمية، مع التوليد السريع واستيراد PDF والمراجعة والتصدير. |
+| **منصة الملاحظات والمتابعة** | [فتح المنصة](notes-platform/index.html) | إدارة ملاحظات الفريق والإجراءات التصحيحية مع تحديد المسؤول وتاريخ الاستهداف، ولوحة مؤشرات ومزامنة سحابية عبر Supabase. |
 | **منصة متابعة مستهدفات نافس** | [فتح المنصة](https://asmaalbatli.github.io/nafs-targets-platform/) | تحليل بطاقات نافس (PDF وصور)، الموقع من المستهدفات الوطنية، مقارنة المدارس، وتحديد مستوى كل مرحلة وفق خط الأساس. |
 
 **الموقع المنشور (متاح للجميع):**
 - https://asmaalbatli.github.io/moe-school-evaluation-improvement-plan/
+- https://asmaalbatli.github.io/moe-school-evaluation-improvement-plan/notes-platform/  ← منصة الملاحظات والمتابعة
+- https://asmaalbatli.github.io/moe-school-evaluation-improvement-plan/notes-platform/index.html?demo=1  ← معاينة المنصة ببيانات تجريبية
 - https://asmaalbatli.github.io/nafs-targets-platform/  ← منصة متابعة مستهدفات نافس
 
 > تفاصيل منصة نافس في الملف: nafs-targets-platform/README.md
+>
+> تفاصيل منصة الملاحظات في الملف: notes-platform/README.md
 
 ## التشغيل
 

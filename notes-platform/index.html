@@ -92,6 +92,31 @@
     <p class="setup-lead">تحتاج المنصة إلى مشروع Supabase واحد لتخزين الملاحظات ومزامنتها بين أعضاء الفريق. الإعداد يستغرق دقائق قليلة.</p>
     <div id="setup-reason" class="notice notice-warn" role="status"></div>
 
+    <section class="demo-login" aria-labelledby="demo-login-title">
+      <div class="demo-login-head">
+        <span class="demo-login-badge"><svg class="ico"><use href="#i-play"></use></svg> دخول تجريبي مؤقت</span>
+        <span class="demo-login-note">للمعاينة فقط — البيانات لا تُحفظ</span>
+      </div>
+      <h2 id="demo-login-title">ادخل بالحساب التجريبي</h2>
+      <p class="demo-login-lead">جرّب المنصة الآن دون إعداد Supabase. هذا الحساب عام ومخصص للعرض فقط، ولا يصلح للبيانات الحقيقية.</p>
+      <form id="demo-login-form" class="demo-login-form" novalidate>
+        <div class="field">
+          <label for="demo-email">البريد الإلكتروني</label>
+          <div class="input-icon-wrap"><svg class="ico"><use href="#i-mail"></use></svg><input id="demo-email" type="email" autocomplete="username" dir="ltr" placeholder="demo@school.edu.sa" required></div>
+        </div>
+        <div class="field">
+          <label for="demo-password">كلمة المرور</label>
+          <div class="input-icon-wrap"><svg class="ico"><use href="#i-key"></use></svg><input id="demo-password" type="password" autocomplete="current-password" dir="ltr" placeholder="Demo@2026" required></div>
+        </div>
+        <button type="submit" id="demo-login-submit" class="btn btn-primary demo-login-submit"><svg class="ico"><use href="#i-lock"></use></svg> دخول إلى المعاينة</button>
+      </form>
+      <div id="demo-login-msg" class="form-msg" role="alert" aria-live="polite"></div>
+      <div class="demo-credentials">
+        <span>البريد: <code dir="ltr">demo@school.edu.sa</code></span>
+        <span>كلمة المرور: <code dir="ltr">Demo@2026</code></span>
+      </div>
+    </section>
+
     <div class="setup-steps">
       <div class="setup-step">
         <span class="step-num">1</span>

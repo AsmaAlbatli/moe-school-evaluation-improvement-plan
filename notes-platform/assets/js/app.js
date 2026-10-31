@@ -15,6 +15,8 @@
   const URL_BASE = String(CFG.url || '').trim().replace(/\/rest\/v1\/?$/i, '').replace(/\/+$/, '');
   const KEY = String(CFG.anonKey || '').trim();
   const ALLOW_SIGNUP = CFG.allowSignup !== false;
+  // حساب معاينة عام فقط — لا يمنح أي وصول إلى بيانات حقيقية.
+  const DEMO_LOGIN = { email: 'demo@school.edu.sa', password: 'Demo@2026' };
 
   const STATUS = { NEW: 'جديدة', PROGRESS: 'قيد المعالجة', CLOSED: 'مغلقة' };
   const STATUS_LIST = [STATUS.NEW, STATUS.PROGRESS, STATUS.CLOSED];
@@ -337,6 +339,33 @@
     ui.authMsg.className = 'form-msg';
     ui.authMsg.textContent = '';
   }
+  function showDemoLoginMsg(message, kind) {
+    if (!ui.demoLoginMsg) return;
+    ui.demoLoginMsg.className = `form-msg show ${kind || 'error'}`;
+    ui.demoLoginMsg.textContent = message;
+  }
+  function clearDemoLoginMsg() {
+    if (!ui.demoLoginMsg) return;
+    ui.demoLoginMsg.className = 'form-msg';
+    ui.demoLoginMsg.textContent = '';
+  }
+  function handleDemoLogin(event) {
+    event.preventDefault();
+    const email = ui.demoEmail.value.trim().toLowerCase();
+    const password = ui.demoPassword.value;
+    if (!email || !password) {
+      showDemoLoginMsg('أدخل البريد الإلكتروني وكلمة المرور التجريبية.', 'error');
+      (email ? ui.demoPassword : ui.demoEmail).focus();
+      return;
+    }
+    if (email !== DEMO_LOGIN.email || password !== DEMO_LOGIN.password) {
+      showDemoLoginMsg('بيانات الدخول التجريبية غير صحيحة. استخدم البيانات الظاهرة أسفل النموذج.', 'error');
+      ui.demoPassword.select();
+      return;
+    }
+    showDemoLoginMsg('تم التحقق. جارٍ فتح المعاينة…', 'success');
+    enterDemo();
+  }
   function showFormError(message) {
     ui.formError.className = 'form-msg show error';
     ui.formError.textContent = message;
@@ -360,6 +389,7 @@
       'boot-overlay', 'mode-badge', 'live-status', 'live-text', 'btn-refresh',
       'user-box', 'user-avatar', 'user-name', 'user-email', 'btn-logout',
       'setup-screen', 'setup-reason', 'btn-setup-demo', 'btn-setup-retry',
+      'demo-login-form', 'demo-email', 'demo-password', 'demo-login-msg', 'demo-login-submit',
       'auth-screen', 'signup-tab', 'auth-title', 'auth-subtitle', 'auth-form',
       'signup-name-field', 'auth-fullname', 'auth-email', 'auth-password',
       'toggle-password', 'signup-confirm-field', 'auth-confirm', 'auth-msg',
@@ -516,6 +546,8 @@
     setHeaderActive(false);
     ui.setupReason.className = 'notice notice-warn';
     ui.setupReason.innerHTML = `${icon('i-alert')}<div>${esc(reason || 'لم تُضبط إعدادات الاتصال بعد.')}</div>`;
+    clearDemoLoginMsg();
+    if (ui.demoPassword) ui.demoPassword.value = '';
     ui.footerMode.textContent = 'بانتظار الإعداد';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1761,6 +1793,7 @@
       ui.togglePassword.title = showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور';
     });
 
+    if (ui.demoLoginForm) ui.demoLoginForm.addEventListener('submit', handleDemoLogin);
     ui.btnAuthDemo.addEventListener('click', enterDemo);
     ui.btnSetupDemo.addEventListener('click', enterDemo);
     ui.btnSetupRetry.addEventListener('click', () => location.reload());
